@@ -1,0 +1,38 @@
+".: :." -> Title
+"->" -> Note or "This means"
+"[]" -> "See this file for more info"
+
+.: What a compiler does? :.
+It compiles the source code to Assemlber
+Assembler creates a object file (.o)
+What with a linker it... links the libs in the object file and creates
+ a executable
+
+The simplest assembly code: [test.asm]
+Syscalls: https://chromium.googlesource.com/chromiumos/docs/+/master/constants/syscalls.md
+Compiling:
+- nasm -f elf64 test.asm # This creates a object file
+- ld test.o -o test      # Links and create a executable
+
+If you run the executable you won't see nothing
+But if you run "echo $?", this shows the last value returned by the last command
+You will see the returned value
+
+
+.: Starting :.
+First step on a compiler Lexical Analysis:
+conversion of text into meaningful lexical tokens
+-> Take all character of file and turns into bigger pieces for easy manipulation
+
+Example:
+To return 24;
+You have to:
+-> RETURN (keyword)
+	-> INT => 24
+		-> SEMICOLN
+
+In other words, to have the "command" "return something" you need to fill the spaces:
+"command value semilcon" -> this are the tokens
+
+And the Lexical Analysis takes the character and identify the tokens
+
