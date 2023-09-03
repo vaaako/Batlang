@@ -1,6 +1,8 @@
-# Batlang
+# Batlang :bat:
 Batlang is my Hobby Programming language, making just for learning and fun.
- It is called **Batlang** because I like bats :bat: and **BAT** is in use alredy
+ It is called **Batlang** because bat :bat: is my favorite anumal
+ and **BAT** is in use alredy
+>Batlang has no relation with BAT from Microsoft
 
 # Running
 ## Install requirements
@@ -36,6 +38,17 @@ You can test it by running
 ```sh
 ./build/bat test.bt
 ```
+
+If compiled using `g++`
+```sh
+./bat test.bt
+```
+
+# Current State
+The language isn't usable yet
+`Batlang` has:
+- Tokenizer
+- Compiler to `ASM`
 
 ### Credits
 Made by me<br>
