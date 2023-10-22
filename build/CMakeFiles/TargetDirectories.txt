@@ -1,3 +1,0 @@
-/home/vako/Documents/cpp/batlang/build/CMakeFiles/batlang.dir
-/home/vako/Documents/cpp/batlang/build/CMakeFiles/edit_cache.dir
-/home/vako/Documents/cpp/batlang/build/CMakeFiles/rebuild_cache.dir
