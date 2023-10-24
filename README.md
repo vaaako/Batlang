@@ -23,7 +23,7 @@ cmake -S . -B build
 
 ### G++
 ```sh
-g++ src/main.cpp src/*.cpp -o batlang
+g++ -std=c++20 -Wall src/*.cpp -leditline -o batlang
 ```
 
 ### Shell File
@@ -35,6 +35,11 @@ bash setup.sh
 ### CMAKE
 ```sh
 cmake --build build
+```
+
+### G++
+```sh
+./batlang
 ```
 
 >`run.sh` compile **and** run (using `cmake`)
