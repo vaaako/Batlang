@@ -21,17 +21,26 @@ mkdir build
 cmake -S . -B build
 ```
 
+## Compiling
+## CMAKE
+```sh
+cmake --build build/
+```
+
 ### G++
 ```sh
 g++ -std=c++20 -Wall src/*.cpp -leditline -o batlang
 ```
 
-### Shell File
-```sh
-bash setup.sh
-```
 
 ## Running
+> The Shell File Compile **AND** run
+
+### Shell File
+```sh
+bash setup.sh -g # -g = Compile with G++ / -c = Compile with CMake
+```
+
 ### CMAKE
 ```sh
 cmake --build build
