@@ -1,11 +1,11 @@
 #pragma once
 
+#include "token.h"
+#include "error.h"
+
 #include <optional>
 #include <string>
 #include <vector>
-#include "token.h"
-#include "error.h"
-#include <stddef.h>
 
 class Lexer {
 	public:

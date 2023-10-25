@@ -1,9 +1,4 @@
 #include <iostream>
-#include <ostream>
-#include <string>
-#include <errno.h>
-#include <stdlib.h>
-#include <math.h>
 
 #include "headers/token.h"
 #include "headers/lexer.h"
@@ -60,7 +55,7 @@ int main() {
 			std::cout << result.second->as_string() << std::endl;
 		else {
 			for(Token token : result.first)
-				std::cout << token.print_token() << " ";
+				std::cout << token.as_string() << " ";
 			std::cout << std::endl;
 		}
 

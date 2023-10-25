@@ -1,6 +1,5 @@
 #pragma once
 
-#include <cstddef>
 #include <string>
 
 enum TokenType {
@@ -23,9 +22,6 @@ class Token {
 
 		std::string as_string();
 		static TokenType from_char(char c);
-
-		// TokenType get_type();
-		// TokenValue get_value();
 	private:
 		TokenType type;
 		std::string value;

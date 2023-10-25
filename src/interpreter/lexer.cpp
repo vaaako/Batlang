@@ -1,16 +1,8 @@
-#include "headers/lexer.h"
-#include "headers/error.h"
-#include "headers/token.h"
-#include <cctype>
-#include <charconv>
+#include "../headers/lexer.h"
+#include "../headers/error.h"
+#include "../headers/token.h"
 #include <iostream>
-#include <cstddef>
-#include <cstring>
-#include <optional>
-#include <string>
-#include <tuple>
-#include <utility>
-#include <vector>
+
 
 Lexer::Lexer(std::string text) : text(text) {
 	if(!text.empty())
