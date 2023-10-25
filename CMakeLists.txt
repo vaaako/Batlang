@@ -7,7 +7,7 @@ project(Batlang)
 
 set(CMAKE_CXX_STANDARD 20)
 
-file(GLOB SOURCES src/*.cpp src/*/*.cpp)
+file(GLOB SOURCES src/*.cpp src/**/*.cpp)
 add_executable(batlang ${SOURCES}) # Args: Compiled name, main file
 
 
