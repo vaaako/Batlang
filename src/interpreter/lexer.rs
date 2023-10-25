@@ -1,19 +1,20 @@
-use crate::error::{IllegalCharError, Error};
-use super::token::Token;
-use super::token::TokenType;
-use super::token::TokenValue;
+use crate::helpers::position::{Position};
+use crate::helpers::error::{IllegalCharError, Error};
+use super::token::{Token, TokenType, TokenValue};
 
+// TODO Make a "error" field, at run time, check if error is not null, if not, print error
+ 
 pub struct Lexer {
-	pos: usize,
-	cc: Option<char>, // Current char
+	pos: Position,
+	cc: char, // Current char
 	text: String
 }
 
 impl Lexer {
-	pub fn new(text: String) -> Self {
+	pub fn new(filename: String, text: String) -> Self {
 		Lexer {
-			pos: 0,
-			cc: text.chars().nth(0),
+			pos: Position::new(filename, 0, 0, 0),
+			cc: text.chars().nth(0).unwrap(),
 			text
 		}
 	}
@@ -21,7 +22,9 @@ impl Lexer {
 	pub fn make_tokens(&mut self) -> (Vec<Token>, Option<Box<dyn Error>>) {
 		let mut tokens: Vec<Token> = Vec::new();
 
-		while let Some(cc) = self.cc {
+		while self.pos.index < self.text.len() {
+			let cc: char = self.cc;
+
 			if cc == '\t' || cc == ' ' {
 				self.advance();
 				continue;
@@ -30,10 +33,11 @@ impl Lexer {
 			if cc.is_digit(10) {
 				let digit: Token = self.make_num();
 				tokens.push(digit);
+				continue;
 			} else if let Some(token_type) = TokenType::from_char(cc) {
 				tokens.push(Token::new(token_type, TokenValue::StringValue(cc.to_string())))
 			} else {
-				return (Vec::new(), Some(Box::new(IllegalCharError::new(format!("{} at position {}", cc.to_string(), self.pos)))))
+				return (Vec::new(), Some( Box::new( IllegalCharError::new(self.pos.clone(), cc.to_string()))) )
 			}
 			
 			self.advance();
@@ -44,9 +48,8 @@ impl Lexer {
 	}
 
 	fn advance(&mut self) {
-		self.pos += 1;
-		self.cc = self.text.chars().nth(self.pos); // Will be None if out index
-		println!("Advanced to position {} with char: {:?}", self.pos, self.cc);
+		self.pos.advance(self.cc);
+		self.cc = self.text.chars().nth(self.pos.index).unwrap_or('\0'); // Will be None if out index
 	}
 
 	// Make a Integer or Float number
@@ -54,8 +57,8 @@ impl Lexer {
 		let mut num_str = String::new();
 		let mut dot_count: i32 = 0;
 
-		while let Some(cc) = self.cc {
-			match cc {
+		while self.pos.index < self.text.len() {
+			match self.cc {
 				c if c.is_digit(10) => num_str.push(c),
 				'.' => {
 					if dot_count == 1 {

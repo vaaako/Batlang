@@ -31,7 +31,7 @@ impl TokenType {
 
 #[derive(Debug)]
 pub enum TokenValue {
-	UNDEFINED,
+	// UNDEFINED,
 	IntegerValue(i32),
 	FloatValue(f64),
 	StringValue(String)
@@ -40,7 +40,7 @@ pub enum TokenValue {
 impl TokenValue {
 	pub fn to_string(&self) -> String {
 		match self {
-			TokenValue::UNDEFINED => "UNDEFINED".to_string(),
+			// TokenValue::UNDEFINED => "UNDEFINED".to_string(),
 			TokenValue::IntegerValue(value) => value.to_string(),
 			TokenValue::FloatValue(value) => value.to_string(),
 			TokenValue::StringValue(value) => value.clone(),
