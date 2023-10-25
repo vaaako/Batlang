@@ -1,7 +1,7 @@
 #include <iostream>
 
-#include "headers/token.h"
-#include "headers/lexer.h"
+#include "headers/token.hpp"
+#include "headers/lexer.hpp"
 
 // g++ -std=c++20 -Wall src/*.cpp -leditline -o batlang
 
@@ -48,7 +48,7 @@ int main() {
 		// Add input to history
 		add_history(input);
 
-		Lexer lexer = Lexer(std::string(input));
+		Lexer lexer = Lexer("<stdin>", std::string(input));
 		auto result = lexer.make_tokens();
 
 		if(result.second.has_value())

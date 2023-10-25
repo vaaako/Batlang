@@ -1,26 +1,25 @@
-#include "../headers/lexer.h"
-#include "../headers/error.h"
-#include "../headers/token.h"
+#include "../headers/lexer.hpp"
+#include "../headers/error.hpp"
+#include "../headers/token.hpp"
 #include <iostream>
 
 
-Lexer::Lexer(std::string text) : text(text) {
+Lexer::Lexer(std::string filename, std::string text) : filename(filename), text(text), pos(Position(0, 0, 0, filename, text)) {
 	if(!text.empty())
 		cc = text[0];
 }
 
 void Lexer::advance() {
-	pos++;
-	cc = (pos < text.length()) ? text[pos] : -1;
-	std::cout << "Advanced to position " << pos << " with char: " << cc << std::endl;
+	pos.advance(cc);
+	cc = (pos.get_index() < text.length()) ? text[pos.get_index()] : -1;
+	std::cout << "Advanced to position " << pos.get_index() << " with char: " << cc << std::endl;
 }
 
 
 std::pair<std::vector<Token>, std::optional<Error>> Lexer::make_tokens() {
 	std::vector<Token> tokens;
 
-	while(pos < text.length()) {
-
+	while(pos.get_index() < text.length()) {
 		if(cc == '\t' || cc == ' ') {
 			advance();
 			continue;
@@ -29,11 +28,12 @@ std::pair<std::vector<Token>, std::optional<Error>> Lexer::make_tokens() {
 		if(std::isdigit(cc)) {
 			Token digit = make_num();
 			tokens.push_back(digit);
+			continue; // Continue with last checked char in make_num
 		} else {
 			TokenType tokenType = Token::from_char(cc);
 
 			if(tokenType == TokenType::UNKNOWN) {
-				return { {}, IllegalCharError("'" + std::string(1, cc) + "' at position " + std::to_string(pos)) };
+				return { {}, IllegalCharError(pos.copy(), pos, "'" + std::string(1, cc) + "' at position " + std::to_string(pos.get_index())) };
 			}
 
 			tokens.push_back(Token(tokenType, std::string(1, cc)));
@@ -52,7 +52,7 @@ Token Lexer::make_num() {
 	std::string num_str;;
 	int dot_count = 0;
 
-	while(pos < text.length()) {
+	while(pos.get_index() < text.length()) {
 		if(std::isdigit(cc)) {
 			num_str += cc;
 		} else if(cc == '.') {

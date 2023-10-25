@@ -1,7 +1,8 @@
 #pragma once
 
-#include "token.h"
-#include "error.h"
+#include "token.hpp"
+#include "error.hpp"
+#include "position.hpp"
 
 #include <optional>
 #include <string>
@@ -9,13 +10,14 @@
 
 class Lexer {
 	public:
-		Lexer(std::string text);
+		Lexer(std::string filename, std::string text);
 
 		std::pair<std::vector<Token>, std::optional<Error>> make_tokens();
 	private:
+		std::string filename;
 		std::string text;
 
-		size_t pos = 0;
+		Position pos;
 		char cc = -1; // Current character
 		
 		Token make_num();
