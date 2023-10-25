@@ -58,9 +58,11 @@ int main() {
 
 		if(result.second.has_value())
 			std::cout << result.second->as_string() << std::endl;
-		else
+		else {
 			for(Token token : result.first)
-				std::cout << token.print_token() << std::endl;
+				std::cout << token.print_token() << " ";
+			std::cout << std::endl;
+		}
 
 		// Free input memoru
 		delete[] input;
