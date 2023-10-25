@@ -1,4 +1,4 @@
-use std::{format, vec};
+use std::{format};
 
 #[derive(Debug)]
 pub enum TokenType {

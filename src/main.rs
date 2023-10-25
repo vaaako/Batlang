@@ -12,11 +12,7 @@ use rustyline::Editor;
 fn main() {
 	let mut rl = Editor::<()>::new();
 
-	rl.load_history("history.txt").ok(); // Optional
-
-	// let token: Token = Token::new(TokenType::PLUS, 12);
-	// println!("{}", token.print());
-
+	// rl.load_history("history.txt").ok(); // Optional
 
 	println!("Batlang 0.0.1 \nPress Ctrl + C to exit");
 
@@ -44,5 +40,5 @@ fn main() {
 		}
 	}
 
-	rl.save_history("history.txt").ok(); // Optional
+	// rl.save_history("history.txt").ok(); // Optional
 }

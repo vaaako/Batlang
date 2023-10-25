@@ -11,12 +11,11 @@ pub struct Lexer {
 
 impl Lexer {
 	pub fn new(text: String) -> Self {
-		let lexer = Lexer {
+		Lexer {
 			pos: 0,
 			cc: text.chars().nth(0),
 			text
-		};
-		lexer
+		}
 	}
 
 	pub fn make_tokens(&mut self) -> (Vec<Token>, Option<Box<dyn Error>>) {
@@ -46,10 +45,7 @@ impl Lexer {
 
 	fn advance(&mut self) {
 		self.pos += 1;
-
-		self.cc = if self.pos < self.text.len() {
-			self.text.chars().nth(self.pos)
-		} else { None };
+		self.cc = self.text.chars().nth(self.pos); // Will be None if out index
 		println!("Advanced to position {} with char: {:?}", self.pos, self.cc);
 	}
 
@@ -59,27 +55,29 @@ impl Lexer {
 		let mut dot_count: i32 = 0;
 
 		while let Some(cc) = self.cc {
-			if cc.is_digit(10) {
-				num_str.push(cc);
-			} else if cc == '.' {
-				// Chck for a dot, and allow only one
-				if dot_count == 1 {
-					break;
+			match cc {
+				c if c.is_digit(10) => num_str.push(c),
+				'.' => {
+					if dot_count == 1 {
+						break;
+					}
+
+					num_str.push('.');
+					dot_count += 1;
 				}
-				
-				num_str.push('.');
-				dot_count += 1;
-			} else {
-				break;
+
+				_ => break
 			}
 
 			self.advance();
 		}
 
-		if dot_count == 0 {
-			Token::new(TokenType::INT, TokenValue::IntegerValue( num_str.parse::<i32>().unwrap() ))
+		let value = if dot_count == 0 {
+			TokenValue::IntegerValue(num_str.parse().unwrap())
 		} else {
-			Token::new(TokenType::FLOAT, TokenValue::FloatValue( num_str.parse::<f64>().unwrap() ))
-		}
+			TokenValue::FloatValue(num_str.parse().unwrap())
+		};
+
+		Token::new(if dot_count == 0 { TokenType::INT } else { TokenType::FLOAT }, value)
 	}
 }
