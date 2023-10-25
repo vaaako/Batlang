@@ -5,7 +5,7 @@ else
 		cmake --build build/
 		./build/batlang
 	else
-		g++ -std=c++20 -Wall src/*.cpp -leditline -o batlang
+		g++ -std=c++20 -Wall src/*.cpp src/*/*.cpp -leditline -o batlang
 		./batlang
 		rm batlang
 	fi
