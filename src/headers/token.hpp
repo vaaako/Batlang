@@ -22,6 +22,9 @@ class Token {
 
 		std::string as_string();
 		static TokenType from_char(char c);
+
+		TokenType get_type();
+		std::string get_value();
 	private:
 		TokenType type;
 		std::string value;

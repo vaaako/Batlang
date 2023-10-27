@@ -19,6 +19,16 @@ TokenType Token::from_char(char c) {
 }
 
 
+
+TokenType Token::get_type() {
+	return type;
+}
+
+std::string Token::get_value() {
+	return value;
+}
+
+
 /* Private */
 std::string Token::get_token_string(TokenType type) {
 	switch (type) {

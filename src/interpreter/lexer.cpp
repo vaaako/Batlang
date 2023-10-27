@@ -12,7 +12,7 @@ Lexer::Lexer(std::string filename, std::string text) : filename(filename), text(
 void Lexer::advance() {
 	pos.advance(cc);
 	cc = (pos.get_index() < text.length()) ? text[pos.get_index()] : -1;
-	std::cout << "Advanced to position " << pos.get_index() << " with char: " << cc << std::endl;
+	// std::cout << "Advanced to position " << pos.get_index() << " with char: " << cc << std::endl;
 }
 
 
@@ -43,7 +43,7 @@ std::pair<std::vector<Token>, std::optional<Error>> Lexer::make_tokens() {
 		advance();
 	}
 
-	std::cout << "Token count: " << tokens.size() << std::endl;
+	// std::cout << "Token count: " << tokens.size() << std::endl;
 	return { tokens, std::nullopt };
 }
 
