@@ -6,9 +6,9 @@ else
 		./build/batlang
 	else
 		#g++ -std=c++20 -Wall src/*.cpp src/*/*.cpp -leditline -o batlang
-		clang++ -std=c++20 -Wall src/*.cpp src/**/*.cpp -leditline -o batlang
+		clang++ -std=c++20 -g -Wall src/*.cpp src/**/*.cpp -leditline -o batlang
 		./batlang
-		rm batlang
+		#rm batlang
 	fi
 fi
 
