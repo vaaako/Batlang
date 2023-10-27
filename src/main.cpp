@@ -1,40 +1,41 @@
 #include <iostream>
+#include <iterator>
 
 #include "headers/token.hpp"
 #include "headers/lexer.hpp"
+#include "headers/parser.hpp"
+
+#include "headers/editline.h"
+
 
 // g++ -std=c++20 -Wall src/*.cpp -leditline -o batlang
 
-/* -= EditLine =- */
-// If compiling on Windows compile these functions
-#ifdef _WIN32 // _LP64 for linux
-#include <string.h>
+void run(std::string filename, std::string text) {
+	if(text.empty()) return;
 
-// Buffer for suer input of size 2048
-static char buffer[2048];
+	// Generate tokens
+	Lexer lexer = Lexer(filename, text);
+	auto result = lexer.make_tokens();
 
-// Fake readline function
-char* readline(char* prompt) {
-	fputs(prompt, stdout);
-	fgets(buffer, 2048, stdin);
-	char* cpy = malloc(strlen(buffer)+1); // +1 reserved to \0
-	strcpy(cpy, buffer);
-	cpy[strlen(cpy)-1] = '\0'; // Change last string character to \0
-	return cpy;
+	// Has error
+	if(result.second.has_value()) {
+		std::cout << result.second->as_string() << std::endl;
+		return;
+	}
+
+	// Generate AST
+	Parser parser = Parser(result.first);
+	Node* ast = parser.parse();
+
+	// Show all (debug)
+	std::cout << "Parser: " + ast->as_string() << std::endl;
+	std::cout << "Token: ";
+	for(Token token : result.first)
+		std::cout << token.as_string() << " ";
+	std::cout << std::endl;
+
+	delete ast;
 }
-
-// Fake add_history function (for no errors)
-void add_history(char* unused) {}
-
-
-// Otherwise include the editline header
-#else
-#include <editline.h> // To be able to use linux arrow keys
-#endif
-/* -= EditLine =- */
-
-
-
 
 int main() {
 	std::cout << "Batlang Version 0.0.1" << std::endl;
@@ -48,18 +49,10 @@ int main() {
 		// Add input to history
 		add_history(input);
 
-		Lexer lexer = Lexer("<stdin>", std::string(input));
-		auto result = lexer.make_tokens();
-
-		if(result.second.has_value())
-			std::cout << result.second->as_string() << std::endl;
-		else {
-			for(Token token : result.first)
-				std::cout << token.as_string() << " ";
-			std::cout << std::endl;
-		}
-
-		// Free input memoru
+		// Run (duurh)
+		run("<stdin>", std::string(input));
+		
+		// Free input memory
 		delete[] input;
 	}
 }
