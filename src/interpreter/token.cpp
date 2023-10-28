@@ -1,7 +1,7 @@
 #include "../headers/token.hpp"
 #include <optional>
 
-Token::Token(TokenType type, std::string value) : type(type), value(value) {}
+// Token::Token(TokenType type, std::string value) : type(type), value(value) {}
 Token::Token(TokenType type, std::string value, Position pos) : type(type), value(value), pos(pos) {}
 
 
@@ -31,7 +31,7 @@ std::string Token::get_value() const {
 	return value;
 }
 
-std::optional<Position> Token::get_pos() {
+Position Token::get_pos() {
 	return pos;
 }
 

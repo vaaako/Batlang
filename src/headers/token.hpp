@@ -22,7 +22,7 @@ enum TokenType {
 
 class Token {
 	public:
-		Token(TokenType type, std::string value);
+		// Token(TokenType type, std::string value);
 		Token(TokenType type, std::string value, Position pos);
 
 		std::string as_string();
@@ -30,13 +30,13 @@ class Token {
 
 		TokenType get_type() const;
 		std::string get_value() const;
-		std::optional<Position> get_pos();
+		Position get_pos();
 
 	private:
 		TokenType type;
 		std::string value;
 
-		std::optional<Position> pos;
+		Position pos;
 		// std::optional<Position> pos_end;
 
 		std::string get_token_string(TokenType type);

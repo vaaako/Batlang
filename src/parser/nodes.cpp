@@ -1,5 +1,11 @@
 #include "../headers/nodes.hpp"
 
+/*
+	!left && !right = Number
+	left  && right  = Binary Operator
+	left  && !right = Unary Operator (will not print as it is, but it is)
+*/
+
 Node::Node(Token token, Node* left, Node* right) : token(token), left(left), right(right) {}
 
 std::string Node::as_string() {
@@ -12,26 +18,18 @@ std::string Node::as_string() {
 std::string Node::get_nodes() {
 	std::string result = "";
 
-	if(left != nullptr) {
-		result += left->as_string(); // Recursively print left subtree.
-	}
+	if(left != nullptr)
+		result += left->as_string() + " "; // Recursively print left subtree.
 
-	result += " " + token.as_string() + " ";
+	result += token.as_string();
 
-	if(right != nullptr) {
-		result += right->as_string(); // Recursively print right subtree.
-	}
+	if(right != nullptr)
+		result += " " + right->as_string(); // Recursively print right subtree.
 
 	return result;
 }
 
 Node::~Node() {
-	if(left != nullptr) {
-		delete left;
-		left = nullptr; // Avoid double deletion
-	}
-	if(right != nullptr) {
-		delete right;
-		right = nullptr;
-	}
+	delete left;
+	delete right;
 }

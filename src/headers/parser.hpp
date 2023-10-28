@@ -32,6 +32,10 @@ class Parser {
 		std::optional<Error> error;
 
 		size_t token_index = 0;
+
+
+		// Just a shortcut
+		bool has_types(TokenType to_check, TokenType type1, TokenType type2);
 };
 
 

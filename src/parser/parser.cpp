@@ -18,7 +18,7 @@ Result Parser::parse() {
 	if(!res.has_error() && cur_token.get_type() != TokenType::TEOF) {
 		return res.set_error(
 			Error(ErrorType::InvalidSyntaxError,
-				  cur_token.get_pos().value(),
+				  cur_token.get_pos(),
 				  "Expected some operator"
 				)
 			);
@@ -30,20 +30,59 @@ Result Parser::parse() {
 Result Parser::factor() {
 	Result res = Result();
 	Token token = cur_token;
+	
+	// +X or -X //
+	if(has_types(token.get_type(), TokenType::PLUS, TokenType::MINUS)) {
+		advance();
+		// res.registr(cur_token);
 
-	if(token.get_type() == TokenType::INT || token.get_type() == TokenType::FLOAT) {
+		// Get unary factor
+		Result factor = res.registr(this->factor());
+		if(factor.has_error()) return res;
+
+		// Sucess
+		return res.set_node(new Node(token, factor.get_node()));
+
+
+	// Number //
+	} else if(has_types(token.get_type(), TokenType::INT, TokenType::FLOAT)) {
 		advance();
 		// res.registr(cur_token);
 
 		return res.set_node(new Node(token)); // Sucess
+
+
+	// Parentheses //
+	} else if(token.get_type() == TokenType::LPARENT) {
+		advance();
+		// res.registr(cur_token);
+
+		// Get Parentheses expression
+		Result expr = res.registr(this->expr());
+		if(expr.has_error()) return res;
+
+		if(cur_token.get_type() == TokenType::RPARENT) {
+			advance();
+			// res.registr(cur_token);
+
+			return res.set_node(expr.get_node()); // Sucess
+		} else {
+			return res.set_error(
+				Error(ErrorType::InvalidSyntaxError,
+					  cur_token.get_pos(),
+					  "Expected ')'"
+				)
+			);
+		}
 	}
 
-	// Don't start with a valid token
-	// "Throw" error
+
+
+	// Don't start with a valid token, "Throw" error
 	return res.set_error(
 		Error(ErrorType::InvalidSyntaxError,
-			  token.get_pos().value(),
-			  "Expected INT or FLOAT Type, got " + token.as_string()
+			  token.get_pos(),
+			  "Expected INT or FLOAT Type, got '" + token.get_value() + "'"
 			)
 		);
 }
@@ -81,3 +120,17 @@ Result Parser::bind_op(TokenType type1, TokenType type2, std::function<Result ()
 	return res.set_node(node); // Sucess
 }
 
+
+/* Privates */
+bool Parser::has_types(TokenType to_check, TokenType type1, TokenType type2) {
+	return to_check == type1 || to_check == type2;
+}
+
+
+/*
+expr   : term ((PLUS|MINUS) term)*
+term   : factor ((MUL|DIV) factor)*
+factor : INT|FLOAT
+	   : (PLUS|MINUS) factor
+	   : LPARENT expr RPARENT
+*/

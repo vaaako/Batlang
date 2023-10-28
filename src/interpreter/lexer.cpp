@@ -43,7 +43,7 @@ std::pair<std::vector<Token>, std::optional<Error>> Lexer::make_tokens() {
 		advance();
 	}
 
-	tokens.push_back(Token(TokenType::TEOF, "EOF")); // End of File
+	tokens.push_back(Token(TokenType::TEOF, "EOF", pos)); // End of File
 	return { tokens, std::nullopt };
 }
 
