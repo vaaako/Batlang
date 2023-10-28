@@ -1,8 +1,11 @@
 #pragma once
 
+#include "error.hpp"
+#include "result.hpp"
 #include "token.hpp"
 #include "nodes.hpp"
 
+#include <optional>
 #include <vector>
 #include <functional>
 
@@ -11,17 +14,24 @@ class Parser {
 		Parser(std::vector<Token> tokens);
 
 		void advance();
-		Node* parse(); // BinOpNode
+		Result parse();
 
-		Node* factor(); // Node Number
-		Node* term(); // BinOpNode
-		Node* expr(); // BinOpNode
+		Result factor();
+
+		Result term();
+		Result expr();
+
+
 
 		// Node* bind_op(TokenType type1, TokenType type2, Node* (*func)());
-		Node* bind_op(TokenType type1, TokenType type2, std::function<Node* ()> func);
+		Result bind_op(TokenType type1, TokenType type2, std::function<Result ()> func);
 	private:
 		std::vector<Token> tokens;
 		Token cur_token = tokens[0];
 
+		std::optional<Error> error;
+
 		size_t token_index = 0;
 };
+
+

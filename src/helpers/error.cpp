@@ -1,7 +1,12 @@
 #include "../headers/error.hpp"
 #include <string>
 
-Error::Error(ErrorType error_type, Position pos_start, std::string details) : pos_start(pos_start), details(details) {
+/*
+	TODO: Better error messages
+	- Add "^" showing where the error occurred (need pos and pos_end)
+
+*/
+Error::Error(ErrorType error_type, Position pos, std::string details) : pos(pos), details(details) {
 	switch (error_type) {
 		case IllegalCharError:
 			name = "Illegal Character";
@@ -15,11 +20,5 @@ Error::Error(ErrorType error_type, Position pos_start, std::string details) : po
 }
 
 std::string Error::as_string() {
-	return name + ": " + details + "\nFile: " + pos_start.get_filename() + ", line " + std::to_string(pos_start.get_line() + 1);
+	return name + ": " + details + "\nFile: " + pos.get_filename() + " at index position " + std::to_string(pos.get_index()) + ", line " + std::to_string(pos.get_line() + 1);
 }
-
-
-
-
-// IllegalCharError::IllegalCharError(Position pos_start, std::string details) : Error(pos_start, "Illegal Character", details) {}
-// InvalidSyntaxError::InvalidSyntaxError(Position pos_start, std::string details) : Error(pos_start, "Illegal Character", details) {}

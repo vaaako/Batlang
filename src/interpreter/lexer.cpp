@@ -33,19 +33,17 @@ std::pair<std::vector<Token>, std::optional<Error>> Lexer::make_tokens() {
 		} else {
 			TokenType tokenType = Token::from_char(cc);
 
-			if(tokenType == TokenType::UNKNOWN) {
-				// return { {}, IllegalCharError(pos, "'" + std::string(1, cc) + "' at position " + std::to_string(pos.get_index())) };
-				return { {}, Error(ErrorType::IllegalCharError, pos, "'" + std::string(1, cc) + "' at position " + std::to_string(pos.get_index())) };
-			}
+			if(tokenType == TokenType::UNKNOWN)
+				return { {}, Error(ErrorType::IllegalCharError, pos, "'" + std::string(1, cc)) };
 
-			tokens.push_back(Token(tokenType, std::string(1, cc)));
+			tokens.push_back(Token(tokenType, std::string(1, cc), pos));
 		}
 
 		
 		advance();
 	}
 
-	// std::cout << "Token count: " << tokens.size() << std::endl;
+	tokens.push_back(Token(TokenType::TEOF, "EOF")); // End of File
 	return { tokens, std::nullopt };
 }
 
@@ -68,10 +66,9 @@ Token Lexer::make_num() {
 		advance();
 	}
 
-
-	if(dot_count == 0) {
-		return Token(TokenType::INT, num_str);
-	} else {
-		return Token(TokenType::FLOAT, num_str);
-	}
+	// If is INT or float
+	if(dot_count == 0)
+		return Token(TokenType::INT, num_str, pos);
+	else
+		return Token(TokenType::FLOAT, num_str, pos);
 }

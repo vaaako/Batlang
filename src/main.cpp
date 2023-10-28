@@ -17,7 +17,7 @@ void run(std::string filename, std::string text) {
 	Lexer lexer = Lexer(filename, text);
 	auto result = lexer.make_tokens();
 
-	// Has error
+	// If lexer as error
 	if(result.second.has_value()) {
 		std::cout << result.second->as_string() << std::endl;
 		return;
@@ -25,16 +25,24 @@ void run(std::string filename, std::string text) {
 
 	// Generate AST
 	Parser parser = Parser(result.first);
-	Node* ast = parser.parse();
+	Result ast = parser.parse();
+
+	// If parser has error
+	if(ast.has_error()) {
+		std::cout << ast.get_error().value().as_string() << std::endl;
+		return;
+	}
 
 	// Show all (debug)
-	std::cout << "Parser: " + ast->as_string() << std::endl;
-	std::cout << "Token: ";
-	for(Token token : result.first)
-		std::cout << token.as_string() << " ";
-	std::cout << std::endl;
+	std::cout << ast.get_node()->as_string() << std::endl;
 
-	delete ast;
+	// std::cout << "Token: ";
+	// for(Token token : result.first)
+	// 	std::cout << token.as_string() << " ";
+	// std::cout << std::endl;
+
+	// Delete unused node
+	delete ast.get_node();
 }
 
 int main() {

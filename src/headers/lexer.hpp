@@ -11,7 +11,6 @@
 class Lexer {
 	public:
 		Lexer(std::string filename, std::string text);
-
 		std::pair<std::vector<Token>, std::optional<Error>> make_tokens();
 	private:
 		std::string filename;

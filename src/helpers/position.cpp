@@ -19,18 +19,18 @@ void Position::advance(char cc) {
 // }
 
 
-size_t Position::get_index() {
+size_t Position::get_index() const {
 	return index;
 }
 
-size_t Position::get_line() {
+size_t Position::get_line() const {
 	return line;
 }
 
-size_t Position::get_col() {
+size_t Position::get_col() const {
 	return col;
 }
 
-std::string Position::get_filename() {
+std::string Position::get_filename() const {
 	return filename;
 }

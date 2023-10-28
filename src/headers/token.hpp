@@ -1,10 +1,13 @@
 #pragma once
 
+#include "position.hpp"
+
 #include <string>
+#include <optional>
 
 enum TokenType {
 	UNKNOWN,
-	UNDEFINED,
+	// UNDEFINED,
 	INT,
 	FLOAT,
 
@@ -14,20 +17,27 @@ enum TokenType {
 	DIV,
 	LPARENT,
 	RPARENT,
+	TEOF // End of file (TEOF because EOF is a C++ macro)
 };
 
 class Token {
 	public:
 		Token(TokenType type, std::string value);
+		Token(TokenType type, std::string value, Position pos);
 
 		std::string as_string();
 		static TokenType from_char(char c);
 
-		TokenType get_type();
-		std::string get_value();
+		TokenType get_type() const;
+		std::string get_value() const;
+		std::optional<Position> get_pos();
+
 	private:
 		TokenType type;
 		std::string value;
+
+		std::optional<Position> pos;
+		// std::optional<Position> pos_end;
 
 		std::string get_token_string(TokenType type);
 };

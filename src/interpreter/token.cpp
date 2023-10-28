@@ -1,6 +1,9 @@
 #include "../headers/token.hpp"
+#include <optional>
 
-Token::Token(TokenType type, std::string value) : type(type), value(value) {};
+Token::Token(TokenType type, std::string value) : type(type), value(value) {}
+Token::Token(TokenType type, std::string value, Position pos) : type(type), value(value), pos(pos) {}
+
 
 std::string Token::as_string() {
 	return get_token_string(type) + ":" + value;
@@ -20,19 +23,23 @@ TokenType Token::from_char(char c) {
 
 
 
-TokenType Token::get_type() {
+TokenType Token::get_type() const {
 	return type;
 }
 
-std::string Token::get_value() {
+std::string Token::get_value() const {
 	return value;
+}
+
+std::optional<Position> Token::get_pos() {
+	return pos;
 }
 
 
 /* Private */
 std::string Token::get_token_string(TokenType type) {
 	switch (type) {
-		case TokenType::UNDEFINED: return "UNDEFINED";
+		// case TokenType::UNDEFINED: return "UNDEFINED";
 		case TokenType::INT: return "INT";
 		case TokenType::FLOAT: return "FLOAT";
 		case TokenType::PLUS: return "PLUS";
@@ -41,6 +48,7 @@ std::string Token::get_token_string(TokenType type) {
 		case TokenType::DIV: return "DIV";
 		case TokenType::LPARENT: return "LPARENT";
 		case TokenType::RPARENT: return "RPARENT";
+		case TokenType::TEOF: return "EOF";
 		default: return "Unkown";
 	}
 }
