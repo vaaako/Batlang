@@ -3,6 +3,9 @@
 Node::Node(Token token, Node* left, Node* right) : token(token), left(left), right(right) {}
 
 std::string Node::as_string() {
+	if(left == nullptr && right == nullptr)
+		return token.as_string();
+
 	return "(" + get_nodes() + ")";
 }
 
