@@ -34,7 +34,7 @@ std::pair<std::vector<Token>, std::optional<Error>> Lexer::make_tokens() {
 			TokenType tokenType = Token::from_char(cc);
 
 			if(tokenType == TokenType::UNKNOWN)
-				return { {}, Error(ErrorType::IllegalCharError, pos, "'" + std::string(1, cc)) };
+				return { {}, Error(ErrorType::IllegalCharError, pos, "'" + std::string(1, cc) + "'") };
 
 			tokens.push_back(Token(tokenType, std::string(1, cc), pos));
 		}
