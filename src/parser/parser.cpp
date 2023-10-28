@@ -11,7 +11,7 @@ void Parser::advance() {
 }
 
 Node* Parser::parse() {
-	return expr();
+	return expr(); // MUL and DIV priority
 }
 
 Node* Parser::factor() {
