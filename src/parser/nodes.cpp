@@ -1,7 +1,6 @@
 #include "../headers/nodes.hpp"
 
 Node::Node(Token token, Node* left, Node* right) : token(token), left(left), right(right) {}
-Node::Node(Token token) : token(token), left(nullptr), right(nullptr) {}
 
 std::string Node::as_string() {
 	return "(" + get_nodes() + ")";

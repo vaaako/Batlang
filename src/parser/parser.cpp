@@ -1,4 +1,6 @@
 #include "../headers/parser.hpp"
+#include "../headers/error.hpp"
+
 #include <iostream>
 
 Parser::Parser(std::vector<Token> tokens) : tokens(tokens) {}
@@ -16,6 +18,8 @@ Node* Parser::factor() {
 	Token token = cur_token;
 	if(cur_token.get_type() == TokenType::INT || cur_token.get_type() == TokenType::FLOAT) {
 		advance();
+	} else { // Don't start with number
+		std::cerr << "Not" << std::endl;
 	}
 	return new Node(token);
 }
@@ -23,29 +27,24 @@ Node* Parser::factor() {
 
 // BinOpNode
 Node* Parser::term() {
-	Node* left = factor();
-	
-	// Current token is mul or div
-	while(cur_token.get_type() == TokenType::MUL || cur_token.get_type() == TokenType::DIV) {
-		Token opToken = cur_token; // Grab token
-		advance(); // Advance to get token from the right
-		Node* right = factor();
-		left = new Node(opToken, left, right);
-	}
-
-	return left;
+	return bind_op(TokenType::MUL, TokenType::DIV, std::bind(&Parser::factor, this));
 }
 
 // BinOpNode
 Node* Parser::expr() {
-	Node* left = term();
+	return bind_op(TokenType::PLUS, TokenType::MINUS, std::bind(&Parser::term, this));
+}
+
+Node* Parser::bind_op(TokenType type1, TokenType type2, std::function<Node* ()> func) {
+	Node* left = func(); // First node
 	
-	while(cur_token.get_type() == TokenType::PLUS || cur_token.get_type() == TokenType::MINUS) {
-		Token opToken = cur_token;
-		advance();
-		Node* right = term();
+	while(cur_token.get_type() == type1 || cur_token.get_type() == type2) {
+		Token opToken = cur_token; // Grab OP token
+		advance(); // Advance to get "right" token
+		Node* right = func();
 		left = new Node(opToken, left, right);
 	}
 
-	return left;
+	return left; // Return first node or new Node
 }
+

@@ -7,8 +7,9 @@ class Position {
 	public:
 		Position(size_t index, size_t line, size_t col, std::string filename, std::string text);
 
-		Position* advance(char cc);
-		Position copy();
+		void advance(char cc);
+		// Position* advance(char cc);
+		// Position copy();
 
 		size_t get_index();
 		size_t get_line();

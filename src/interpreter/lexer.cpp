@@ -1,6 +1,7 @@
 #include "../headers/lexer.hpp"
 #include "../headers/error.hpp"
 #include "../headers/token.hpp"
+
 #include <iostream>
 
 
@@ -33,7 +34,7 @@ std::pair<std::vector<Token>, std::optional<Error>> Lexer::make_tokens() {
 			TokenType tokenType = Token::from_char(cc);
 
 			if(tokenType == TokenType::UNKNOWN) {
-				return { {}, IllegalCharError(pos.copy(), pos, "'" + std::string(1, cc) + "' at position " + std::to_string(pos.get_index())) };
+				return { {}, IllegalCharError(pos, "'" + std::string(1, cc) + "' at position " + std::to_string(pos.get_index())) };
 			}
 
 			tokens.push_back(Token(tokenType, std::string(1, cc)));

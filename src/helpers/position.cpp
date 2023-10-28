@@ -4,7 +4,7 @@ Position::Position(size_t index, size_t line, size_t col, std::string filename, 
 
 }
 
-Position* Position::advance(char cc) {
+void Position::advance(char cc) {
 	index++;
 	col++;
 
@@ -12,13 +12,11 @@ Position* Position::advance(char cc) {
 		line++;
 		col = 0;
 	}
-
-	return this;
 }
 
-Position Position::copy() {
-	return *this;
-}
+// Position Position::copy() {
+// 	return *this;
+// }
 
 
 size_t Position::get_index() {

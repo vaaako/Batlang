@@ -6,8 +6,7 @@
 
 class Node {
 	public:	
-		Node(Token token, Node* left, Node* right);
-		Node(Token token);
+		Node(Token token, Node* left=nullptr, Node* right=nullptr);
 
 		std::string as_string();
 		~Node();
