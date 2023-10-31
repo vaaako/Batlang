@@ -10,11 +10,21 @@ Batlang is my Hobby Programming language, making just for learning and fun. It i
 # Current State
 **Batlang** is very early stage and isn't usable yet<br>
 Currently it has:
-- Tokenizer
+- Lexer
 - Parser
+- Error Handler
+- Expression Interpreter
 
 # Running
 ## Setup
+## Requirements
+Make sure to have `g++` or `clang` or `cmake`
+
+```sh
+# change clang to g++ if want
+sudo apt install clang cmake -y
+```
+
 ### CMAKE
 ```sh
 mkdir build
@@ -27,9 +37,9 @@ cmake -S . -B build
 cmake --build build/
 ```
 
-### G++
+### CLANG
 ```sh
-g++ -std=c++20 -Wall src/*.cpp src/**/*.cpp -leditline -o batlang
+clang++ -std=c++20 -Wall src/*.cpp src/**/*.cpp -leditline -o batlang
 ```
 
 
@@ -38,7 +48,7 @@ g++ -std=c++20 -Wall src/*.cpp src/**/*.cpp -leditline -o batlang
 
 ### Shell File
 ```sh
-bash setup.sh -g # -g = Compile with G++ / -c = Compile with CMake
+bash setup.sh -g # -g = Compile with clang / -c = Compile with CMake
 ```
 
 ### CMAKE
@@ -46,7 +56,7 @@ bash setup.sh -g # -g = Compile with G++ / -c = Compile with CMake
 cmake --build build
 ```
 
-### G++
+### CLANG
 ```sh
 ./batlang
 ```
@@ -54,5 +64,6 @@ cmake --build build
 >`run.sh` compile **and** run (using `cmake`)
 
 # Credits
-Made by me
+Made by me<br>
+Inspired by [David Callanan](https://github.com/davidcallanan) and [Matthew Oros](https://github.com/orosmatthew)
 
