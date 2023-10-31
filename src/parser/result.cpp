@@ -24,18 +24,9 @@ Result Result::set_error(Error error) {
 }
 
 
-bool Result::has_error() {
-	return (error.has_value()) ? true : false;
-}
 
 
 
 
-std::optional<Error> Result::get_error() {
-	return error;
-}
 
-Node* Result::get_node() {
-	return node;
-}
 

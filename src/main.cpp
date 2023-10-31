@@ -36,7 +36,7 @@ void run(std::string filename, std::string text) {
 
 	// Run interpreter
 	Interpreter interpreter = Interpreter();
-	interpreter.visit(ast.get_node()->get_type());
+	interpreter.visit(ast.get_node());
 
 	// Show all (debug)
 	std::cout << ast.get_node()->as_string() << std::endl;

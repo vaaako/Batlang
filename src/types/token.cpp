@@ -4,11 +4,6 @@
 // Token::Token(TokenType type, std::string value) : type(type), value(value) {}
 Token::Token(TokenType type, std::string value, Position pos) : type(type), value(value), pos(pos) {}
 
-
-std::string Token::as_string() {
-	return get_token_string(type) + ":" + value;
-}
-
 TokenType Token::enum_from_char(char c) {
 	switch (c) {
 		case '+': return TokenType::PLUS;
@@ -23,21 +18,10 @@ TokenType Token::enum_from_char(char c) {
 
 
 
-TokenType Token::get_type() const {
-	return type;
-}
-
-std::string Token::get_value() const {
-	return value;
-}
-
-Position Token::get_pos() {
-	return pos;
-}
 
 
-/* Private */
-std::string Token::get_token_string(TokenType type) {
+/* PRIVATE */
+std::string Token::get_token_string(TokenType type) const {
 	switch (type) {
 		// case TokenType::UNDEFINED: return "UNDEFINED";
 		case TokenType::INT: return "INT";

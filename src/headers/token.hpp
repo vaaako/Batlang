@@ -24,13 +24,25 @@ class Token {
 	public:
 		// Token(TokenType type, std::string value);
 		Token(TokenType type, std::string value, Position pos);
-
-		std::string as_string();
 		static TokenType enum_from_char(char c);
 
-		TokenType get_type() const;
-		std::string get_value() const;
-		Position get_pos();
+
+
+		inline std::string as_string() const {
+			return get_token_string(type) + ":" + value;
+		}
+
+		inline TokenType get_type() const {
+			return type;
+		}
+
+		inline std::string get_value() const {
+			return value;
+		}
+
+		inline Position get_pos() const {
+			return pos;
+		}
 
 	private:
 		TokenType type;
@@ -39,5 +51,5 @@ class Token {
 		Position pos;
 		// std::optional<Position> pos_end;
 
-		std::string get_token_string(TokenType type);
+		std::string get_token_string(TokenType type) const;
 };

@@ -11,10 +11,21 @@ class Position {
 		// Position* advance(char cc);
 		// Position copy();
 
-		size_t get_index() const;
-		size_t get_line() const;
-		size_t get_col() const;
-		std::string get_filename() const;
+		inline size_t get_index() const {
+			return index;
+		}
+
+		inline size_t get_line() const {
+			return line;
+		}
+
+		inline size_t get_col() const {
+			return col;
+		}
+
+		inline std::string get_filename() const {
+			return filename;
+		}
 	private:
 		size_t index;
 		size_t line;

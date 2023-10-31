@@ -8,29 +8,10 @@ void Position::advance(char cc) {
 	index++;
 	col++;
 
+	// Next line
 	if(cc == '\n') {
 		line++;
 		col = 0;
 	}
 }
 
-// Position Position::copy() {
-// 	return *this;
-// }
-
-
-size_t Position::get_index() const {
-	return index;
-}
-
-size_t Position::get_line() const {
-	return line;
-}
-
-size_t Position::get_col() const {
-	return col;
-}
-
-std::string Position::get_filename() const {
-	return filename;
-}

@@ -67,8 +67,6 @@ Token Lexer::make_num() {
 	}
 
 	// If is INT or float
-	if(dot_count == 0)
-		return Token(TokenType::INT, num_str, pos);
-	else
-		return Token(TokenType::FLOAT, num_str, pos);
+	return (dot_count == 0) ? Token(TokenType::INT, num_str, pos)
+		: Token(TokenType::FLOAT, num_str, pos);
 }

@@ -13,7 +13,16 @@ class Error {
 	public:
 		// Error(Position pos, Position pos_end, std::string name, std::string details);
 		Error(ErrorType error_type, Position pos, std::string details);
-		std::string as_string();
+		inline std::string as_string() const {
+			return colorize(name + ": ", "bold_red")
+					+ colorize(details, "green")
+					+ colorize("\nFile: ", "gray")
+					+ colorize(pos.get_filename(), "yellow")
+					+ colorize(" at index position ", "white")
+					+ colorize(std::to_string(pos.get_index()), "blue")
+					+ ", line "
+					+ colorize(std::to_string(pos.get_line() + 1), "blue");
+		}
 
 	private:
 		Position pos;
@@ -31,6 +40,7 @@ class Error {
 			{ "white",     "\033[37m" }
 		};
 
-		std::string colorize(std::string text, std::string color);
-
+		inline std::string colorize(std::string text, std::string color) const {
+			return color_hash.at(color) + text + color_hash.at("reset");
+		}
 };

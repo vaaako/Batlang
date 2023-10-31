@@ -6,27 +6,6 @@
 
 Parser::Parser(std::vector<Token> tokens) : tokens(tokens) {}
 
-void Parser::advance() {
-	if(++token_index < tokens.size())
-		cur_token = tokens[token_index];
-}
-
-Result Parser::parse() {
-	Result res = expr(); // MUL and DIV priority
-
-	// Not reach the end of file
-	if(!res.has_error() && cur_token.get_type() != TokenType::TEOF) {
-		return res.set_error(
-			Error(ErrorType::InvalidSyntaxError,
-				  cur_token.get_pos(),
-				  "Expected some operator"
-				)
-			);
-	}
-
-	return res;
-}
-
 Result Parser::factor() {
 	Result res = Result();
 	Token token = cur_token;
@@ -122,9 +101,7 @@ Result Parser::bind_op(TokenType type1, TokenType type2, std::function<Result ()
 
 
 /* Privates */
-bool Parser::has_types(TokenType to_check, TokenType type1, TokenType type2) {
-	return to_check == type1 || to_check == type2;
-}
+
 
 
 /*

@@ -21,13 +21,27 @@ class Node {
 		Node(Token token, Node* left, Node* right);
 		Node(Token token, Node* left);
 
-		std::string as_string();
-
 		static std::string get_type_as_string(NodeType type);
 
-		NodeType get_type() const;
-		Node* get_left();
-		Node* get_right();
+		
+		inline std::string as_string() const {
+			if(left == nullptr && right == nullptr)
+				return token.as_string();
+			return "(" + get_nodes() + ")";
+		}
+
+		inline NodeType get_type() const {
+			return type;
+		}
+
+		inline Node* get_left() {
+			return left;
+		}
+
+		inline Node* get_right() {
+			return right;
+		}
+
 
 		~Node();
 	private:
@@ -37,6 +51,19 @@ class Node {
 		Node* left;
 		Node* right;
 
-		std::string get_nodes();
+
+		inline std::string get_nodes() const {
+			std::string result = "";
+
+			if(left != nullptr)
+				result += left->as_string() + " "; // Recursively print left subtree.
+
+			result += token.as_string();
+
+			if(right != nullptr)
+				result += " " + right->as_string(); // Recursively print right subtree.
+
+			return result;
+		}
 };
 
