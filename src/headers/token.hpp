@@ -26,7 +26,7 @@ class Token {
 		Token(TokenType type, std::string value, Position pos);
 
 		std::string as_string();
-		static TokenType from_char(char c);
+		static TokenType enum_from_char(char c);
 
 		TokenType get_type() const;
 		std::string get_value() const;

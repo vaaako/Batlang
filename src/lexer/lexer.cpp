@@ -31,7 +31,7 @@ std::pair<std::vector<Token>, std::optional<Error>> Lexer::make_tokens() {
 			tokens.push_back(digit);
 			continue; // Continue with last checked char in make_num
 		} else {
-			TokenType tokenType = Token::from_char(cc);
+			TokenType tokenType = Token::enum_from_char(cc);
 
 			if(tokenType == TokenType::UNKNOWN)
 				return { {}, Error(ErrorType::IllegalCharError, pos, "'" + std::string(1, cc) + "'") };

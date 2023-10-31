@@ -9,7 +9,7 @@ std::string Token::as_string() {
 	return get_token_string(type) + ":" + value;
 }
 
-TokenType Token::from_char(char c) {
+TokenType Token::enum_from_char(char c) {
 	switch (c) {
 		case '+': return TokenType::PLUS;
 		case '-': return TokenType::MINUS;

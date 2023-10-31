@@ -1,9 +1,10 @@
 #include "../headers/nodes.hpp"
+#include <string>
 
 /*
 	!left && !right = Number
 	left  && right  = Binary Operator
-	left  && !right = Unary Operator (will not print as it is, but it is)
+	left  && !right = Unary Operator
 */
 
 Node::Node(Token token) : token(token), type(NodeType::NUMBER), left(nullptr), right(nullptr) {}
@@ -17,6 +18,34 @@ std::string Node::as_string() {
 	return "(" + get_nodes() + ")";
 }
 
+
+
+
+NodeType Node::get_type() const {
+	return type;
+}
+
+std::string Node::get_type_as_string(NodeType type) {
+	switch (type) {
+		case NodeType::NUMBER:
+			return "NUMBER";
+		case NodeType::BINARY:
+			return "BINARY";
+		case NodeType::UNARY:
+			return "UNARY";
+		default: // Never reach (this is just to not get a warning)
+			throw std::runtime_error("Node type don't exist");
+	}
+}
+
+
+Node::~Node() {
+	delete left;
+	delete right;
+}
+
+
+/* PRIVATE */
 std::string Node::get_nodes() {
 	std::string result = "";
 
@@ -29,9 +58,4 @@ std::string Node::get_nodes() {
 		result += " " + right->as_string(); // Recursively print right subtree.
 
 	return result;
-}
-
-Node::~Node() {
-	delete left;
-	delete right;
 }

@@ -4,6 +4,7 @@
 #include "headers/token.hpp"
 #include "headers/lexer.hpp"
 #include "headers/parser.hpp"
+#include "headers/interpreter.hpp"
 
 #include "headers/editline.h"
 
@@ -32,6 +33,10 @@ void run(std::string filename, std::string text) {
 		std::cout << ast.get_error().value().as_string() << std::endl;
 		return;
 	}
+
+	// Run interpreter
+	Interpreter interpreter = Interpreter();
+	interpreter.visit(ast.get_node()->get_type());
 
 	// Show all (debug)
 	std::cout << ast.get_node()->as_string() << std::endl;

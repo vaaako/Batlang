@@ -19,6 +19,10 @@ class Node {
 		Node(Token token, Node* left);
 
 		std::string as_string();
+
+		static std::string get_type_as_string(NodeType type);
+		NodeType get_type() const;
+
 		~Node();
 	private:
 		Token token;
