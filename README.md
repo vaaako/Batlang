@@ -16,6 +16,10 @@ Currently it has:
 - Expression Interpreter
 
 # Running
+**WARNING:** This was only tested on `Ubuntu`,
+	so if you are using a distro not based on `Debian` or `Ubuntu` need to change
+	the **Shell** files
+
 ## Setup
 ## Requirements
 Make sure to have `g++` or `clang` or `cmake`
@@ -62,6 +66,10 @@ cmake --build build
 ```
 
 >`run.sh` compile **and** run (using `cmake`)
+
+# TODO
+- [ ] Install support to `Arch` and `Fedora`
+- [ ] Remove install of `editline` and put to a `include` instead
 
 # Credits
 Made by me<br>
