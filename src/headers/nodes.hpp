@@ -4,6 +4,9 @@
 #include <locale>
 #include <optional>
 
+// This is Unary Node only
+#define get_child get_left
+
 enum class NodeType {
 	UNKNOWN,
 	NUMBER,
@@ -21,7 +24,10 @@ class Node {
 		std::string as_string();
 
 		static std::string get_type_as_string(NodeType type);
+
 		NodeType get_type() const;
+		Node* get_left();
+		Node* get_right();
 
 		~Node();
 	private:

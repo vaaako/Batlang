@@ -4,7 +4,7 @@
 /*
 	!left && !right = Number
 	left  && right  = Binary Operator
-	left  && !right = Unary Operator
+	left  && !right = Unary Operator (so left is the child)
 */
 
 Node::Node(Token token) : token(token), type(NodeType::NUMBER), left(nullptr), right(nullptr) {}
@@ -24,6 +24,15 @@ std::string Node::as_string() {
 NodeType Node::get_type() const {
 	return type;
 }
+
+Node* Node::get_left() {
+	return left;
+}
+
+Node* Node::get_right() {
+	return right;
+}
+
 
 std::string Node::get_type_as_string(NodeType type) {
 	switch (type) {
