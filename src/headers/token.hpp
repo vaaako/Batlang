@@ -5,7 +5,7 @@
 #include <string>
 #include <optional>
 
-enum TokenType {
+enum class TokenType {
 	UNKNOWN,
 	// UNDEFINED,
 	INT,
