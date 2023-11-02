@@ -16,16 +16,16 @@ void run(std::string filename, std::string text) {
 
 	// Generate tokens
 	Lexer lexer = Lexer(filename, text);
-	auto result = lexer.make_tokens();
+	auto tokens = lexer.make_tokens();
 
 	// If lexer as error
-	if(result.second.has_value()) {
-		std::cout << result.second->as_string() << std::endl;
+	if(tokens.second.has_value()) {
+		std::cout << tokens.second->as_string() << std::endl;
 		return;
 	}
 
 	// Generate AST
-	Parser parser = Parser(result.first);
+	Parser parser = Parser(tokens.first);
 	Result ast = parser.parse();
 
 	// If parser has error
@@ -34,24 +34,27 @@ void run(std::string filename, std::string text) {
 		return;
 	}
 
+	// Show nodes (debug)
+	// std::cout << ast.get_node()->as_string() << std::endl;
+
+
 	// Run interpreter
 	Interpreter interpreter = Interpreter();
-	interpreter.visit(ast.get_node());
+	Number* result = interpreter.visit(ast.get_node());
 
-	// Show all (debug)
-	std::cout << ast.get_node()->as_string() << std::endl;
-
+	std::cout << Batring::result(result->as_string()) << std::endl;
 	// std::cout << "Token: ";
-	// for(Token token : result.first)
+	// for(Token token : tokens.first)
 	// 	std::cout << token.as_string() << " ";
 	// std::cout << std::endl;
 
 	// Delete unused node
 	delete ast.get_node();
+	delete result;
 }
 
 int main() {
-	std::cout << "Batlang Version 0.0.1" << std::endl;
+	std::cout << "Batlang Version 0.1" << std::endl;
 	std::cout << "Press Ctrl + C to exit" << std::endl;
 
 

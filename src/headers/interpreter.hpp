@@ -1,14 +1,15 @@
 #pragma once
 
 #include "nodes.hpp"
+#include "number.hpp"
 
 class Interpreter {
 	public:
 		Interpreter();
 
-		void visit(NodeType node_type);
-		void visit_number();
-		void visit_binary();
-		void visit_unary();
+		Number* visit(Node* node);
+		Number* visit_number(Node* node);
+		Number* visit_binary(Node* node);
+		Number* visit_unary(Node* node);
 	private:
 };

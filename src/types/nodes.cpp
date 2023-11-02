@@ -7,9 +7,9 @@
 	left  && !right = Unary Operator (so left is the child)
 */
 
-Node::Node(Token token) : token(token), type(NodeType::NUMBER), left(nullptr), right(nullptr) {}
-Node::Node(Token token, Node* left, Node* right) : token(token), type(NodeType::BINARY), left(left), right(right) {}
-Node::Node(Token token, Node* left) : token(token), type(NodeType::UNARY), left(left), right(nullptr) {}
+Node::Node(Token token) : token(token), type(NodeType::NUMBER), left(nullptr), right(nullptr), pos(token.get_pos()) {}
+Node::Node(Token token, Node* left, Node* right) : token(token), type(NodeType::BINARY), left(left), right(right), pos(left->get_pos()) /*pos_end(right->get_pos())*/ {}
+Node::Node(Token token, Node* left) : token(token), type(NodeType::UNARY), left(left), right(nullptr), pos(left->get_pos()) {}
 
 std::string Node::get_type_as_string(NodeType type) {
 	switch (type) {

@@ -40,6 +40,7 @@ Result Parser::factor() {
 		Result expr = res.registr(this->expr());
 		if(expr.has_error()) return res;
 
+		// Check if closed
 		if(cur_token.get_type() == TokenType::RPARENT) {
 			advance();
 			// res.registr(cur_token);
@@ -61,7 +62,7 @@ Result Parser::factor() {
 	return res.set_error(
 		Error(ErrorType::InvalidSyntaxError,
 			  token.get_pos(),
-			  "Expected INT or FLOAT Type, got '" + token.get_value() + "'"
+			  "Expected <INT>, <FLOAT> or '(' type, but got '" + token.value_as_string() + "'"
 			)
 		);
 }

@@ -7,16 +7,8 @@
 
 */
 Error::Error(ErrorType error_type, Position pos, std::string details) : pos(pos), details(details) {
-	switch (error_type) {
-		case IllegalCharError:
-			name = "Illegal Character";
-			break;
-		case InvalidSyntaxError:
-			name = "Invalid Syntax";
-			break;
-		default:
-			name = "Error";
-	}
+	auto it = error_hash.find(error_type);
+	name = (it == error_hash.end()) ? "Error" : it->second;
 }
 
 

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "position.hpp"
 #include "token.hpp"
 #include <locale>
 #include <optional>
@@ -23,15 +24,13 @@ class Node {
 
 		static std::string get_type_as_string(NodeType type);
 
-		
-		inline std::string as_string() const {
-			if(left == nullptr && right == nullptr)
-				return token.as_string();
-			return "(" + get_nodes() + ")";
-		}
-
+	
 		inline NodeType get_type() const {
 			return type;
+		}
+
+		inline Token get_token() const {
+			return token;
 		}
 
 		inline Node* get_left() {
@@ -42,6 +41,17 @@ class Node {
 			return right;
 		}
 
+		Position get_pos() {
+			return pos;
+		}
+
+
+		inline std::string as_string() const {
+			if(left == nullptr && right == nullptr)
+				return token.as_string();
+			return "(" + get_nodes() + ")";
+		}
+
 
 		~Node();
 	private:
@@ -50,6 +60,8 @@ class Node {
 
 		Node* left;
 		Node* right;
+
+		Position pos;
 
 
 		inline std::string get_nodes() const {
