@@ -2,7 +2,7 @@ if [[ $# -eq 0 && $1 != "-g" && $1 != "-c"  ]]; then
 	echo "Valid arguments are -g to compile with Clang and -c to compile with camke"
 else
 	if [ $1 == "-c" ]; then
-		cmake -S . -B build
+		#cmake -S . -B build
 		cmake --build build/
 		./build/batlang
 		#rm ./build/batlang

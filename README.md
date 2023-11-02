@@ -70,6 +70,7 @@ cmake --build build
 # TODO
 - [ ] Install support to `Arch` and `Fedora`
 - [ ] Remove install of `editline` and put to a `include` instead
+- [ ] Better error message
 
 # Credits
 Made by me<br>
