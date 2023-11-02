@@ -6,7 +6,7 @@
 #include <string>
 
 
-Lexer::Lexer(std::string filename, std::string text) : filename(filename), text(text), pos(Position(0, 0, 0, filename, text)) {
+Lexer::Lexer(std::string filename, std::string text) : text(text), pos(Position(0, 0, 0, filename, text)) {
 	if(!text.empty())
 		cc = text[0];
 }
@@ -18,7 +18,7 @@ void Lexer::advance() {
 }
 
 
-std::pair<std::vector<Token>, std::optional<Error>> Lexer::make_tokens() {
+LResult Lexer::make_tokens() {
 	std::vector<Token> tokens;
 
 	while(pos.get_index() < text.length()) {
@@ -35,7 +35,7 @@ std::pair<std::vector<Token>, std::optional<Error>> Lexer::make_tokens() {
 			TokenType tokenType = Token::from_char(cc);
 
 			if(tokenType == TokenType::UNKNOWN)
-				return { {}, Error(ErrorType::IllegalCharError, pos, "'" + std::string(1, cc) + "'") };
+				return LResult(Error(ErrorType::IllegalCharError, pos, "'" + std::string(1, cc) + "'"));
 
 			tokens.push_back(Token(tokenType, pos));
 		}
@@ -45,7 +45,7 @@ std::pair<std::vector<Token>, std::optional<Error>> Lexer::make_tokens() {
 	}
 
 	tokens.push_back(Token(TokenType::TEOF, pos)); // End of File
-	return { tokens, std::nullopt };
+	return LResult(tokens);
 }
 
 

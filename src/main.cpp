@@ -16,16 +16,16 @@ void run(std::string filename, std::string text) {
 
 	// Generate tokens
 	Lexer lexer = Lexer(filename, text);
-	auto tokens = lexer.make_tokens();
+	LResult lexer_result = lexer.make_tokens();
 
 	// If lexer as error
-	if(tokens.second.has_value()) {
-		std::cout << tokens.second->as_string() << std::endl;
+	if(lexer_result.error.has_value()) {
+		std::cout << lexer_result.error->as_string() << std::endl;
 		return;
 	}
 
 	// Generate AST
-	Parser parser = Parser(tokens.first);
+	Parser parser = Parser(lexer_result.tokens);
 	Result ast = parser.parse();
 
 	// If parser has error
