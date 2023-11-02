@@ -6,7 +6,8 @@
 
 enum ErrorType {
 	IllegalCharError,
-	InvalidSyntaxError
+	InvalidSyntaxError,
+	RuntimeError
 };
 
 class Error {
@@ -38,6 +39,12 @@ class Error {
 			{ "blue",     "\033[34m" },
 			{ "gray",     "\033[90m" },
 			{ "white",     "\033[37m" }
+		};
+
+		std::unordered_map<ErrorType, std::string> error_hash = {
+			{ IllegalCharError,   "Illegal Character"  },
+			{ InvalidSyntaxError, "Invalid Syntax" },
+			{ RuntimeError,       "Runtime Error" },
 		};
 
 		inline std::string colorize(std::string text, std::string color) const {
