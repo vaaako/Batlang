@@ -11,7 +11,7 @@ std::unordered_map<std::string, std::string> color_hash = {
 	{ "yellow",   "\033[33m" },
 	{ "blue",     "\033[34m" },
 	{ "gray",     "\033[90m" },
-	{ "white",     "\033[37m" }
+	{ "white",    "\033[37m" }
 };
 
 std::string Batring::colorize(std::string text, std::string color)  {
@@ -55,6 +55,7 @@ void Batring::error(Error error) {
 			+ colorize(" at index position ", "white")
 			+ colorize(std::to_string(pos.get_index()), "blue")
 			+ ", line "
-			+ colorize(std::to_string(pos.get_line() + 1), "blue");
+			+ colorize(std::to_string(pos.get_line() + 1), "blue")
+	<< std::endl; // It won't work without this
 }
 
