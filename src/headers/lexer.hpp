@@ -14,17 +14,16 @@ struct LResult {
 	std::optional<Error> error;
 
 	// LResult(std::vector<Token> tokens, Error error) : tokens(tokens), error(error) {}
-	LResult(std::vector<Token> tokens) : tokens(tokens) {}
-	LResult(Error error) : tokens({}), error(error) {}
+	LResult(const std::vector<Token> tokens) : tokens(tokens) {}
+	LResult(const Error error) : tokens({}), error(error) {}
 };
 
 class Lexer {
 	public:
-		Lexer(std::string filename, std::string text);
+		Lexer(const std::string filename, const std::string text);
 		LResult make_tokens();
 	private:
 		std::string text;
-
 		Position pos;
 		char cc = -1; // Current character
 		
@@ -32,5 +31,11 @@ class Lexer {
 
 		// Go to next character
 		void advance();
+
+		char pop_text() {
+			char c = text.at(0);
+			text.erase(text.begin());
+			return c;
+		}
 
 };
