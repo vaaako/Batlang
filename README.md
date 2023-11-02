@@ -98,7 +98,7 @@ function is_zero(int y) -> bool {
 
 ## Without
 ```rust
-function is_zero(int y) -> bool
+function is_zero(int y) -> bool then // This "then" is not really necessary, but it's odd without it
 	let x: int = -1; // Semicolons are optional
 	let z: bool = then // Opened context, this is like a lambda
 		if x + y == 0 then
@@ -123,5 +123,5 @@ Inspired by [David Callanan](https://github.com/davidcallanan) and [Matthew Oros
 
 
 ---
->I'm still learning about `Interpreters` and `C++`, so tell me if a make some mistake
+>I'm still learning about `Interpreters` and `C++`, so tell me if I do some mistake
 
