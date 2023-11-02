@@ -4,7 +4,7 @@
 
 #include <iostream>
 
-Parser::Parser(std::vector<Token> tokens) : tokens(tokens) {}
+Parser::Parser(const std::vector<Token> tokens) : tokens(tokens) {}
 
 Result Parser::factor() {
 	Result res = Result();
@@ -78,7 +78,7 @@ Result Parser::expr() {
 	return bind_op(TokenType::PLUS, TokenType::MINUS, std::bind(&Parser::term, this));
 }
 
-Result Parser::bind_op(TokenType type1, TokenType type2, std::function<Result ()> func) {
+Result Parser::bind_op(const TokenType type1, const TokenType type2, const std::function<Result ()> func) {
 	Result res = Result();
 
 	Result left = res.registr(func()); // First node

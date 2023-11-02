@@ -6,22 +6,23 @@
 #include <string>
 
 
-Lexer::Lexer(std::string filename, std::string text) : text(text), pos(Position(0, 0, 0, filename, text)) {
-	if(!text.empty())
-		cc = text[0];
+Lexer::Lexer(const std::string filename, const std::string text) : text(text), pos(Position(0, 0, 0, filename, text)) {
+	if(!text.empty()) cc = pop_text(); // Pop char from text
 }
 
 void Lexer::advance() {
 	pos.advance(cc);
-	cc = (pos.get_index() < text.length()) ? text[pos.get_index()] : -1;
-	// std::cout << "Advanced to position " << pos.get_index() << " with char: " << cc << std::endl;
+	cc = (text.length() != 0) ? pop_text() : -1;
+	// std::cout << "Advanced to position " << pos.get_index() << " of " << text.length() << std::endl;
 }
 
 
 LResult Lexer::make_tokens() {
 	std::vector<Token> tokens;
 
-	while(pos.get_index() < text.length()) {
+	// while(pos.get_index() < text.length()) {
+	// While text still have char
+	while(cc != -1) { 
 		if(cc == '\t' || cc == ' ') {
 			advance();
 			continue;
@@ -69,11 +70,11 @@ Token Lexer::make_num() {
 	}
 
 	// If is INT or float
-	return (dot_count == 0) ? Token(TokenType::INT, pos, std::stoi(num_str)) // Converting to Int
-		: Token(TokenType::FLOAT, pos, std::stod(num_str)); // Converting to Double, so the maximum precision are 6 decimals
+	return (dot_count == 0) ? Token(TokenType::INT, pos, static_cast<int>(std::stoi(num_str))) // Converting to Int
+		: Token(TokenType::FLOAT, pos, static_cast<double>(std::stod(num_str))); // Converting to Double, so the maximum precision are 6 decimals
 	/**
-	 * @WARNING: If changing "stod" (Float type) to another type, remember to change at any place that stores value: token, number and batring
-	 *           - On changing "stoi" (Int type) it is only needed to change at "batring", because Integer is only really used on printing (for now)
+	 * @WARNING: If changing "double" (Float type) to another type, remember to change at any place that stores value: token, number and batring
+	 *           - On changing "int" (Int type) it is only needed to change at "batring", because Integer is only really used on printing (for now)
 	 * */
 
 }
