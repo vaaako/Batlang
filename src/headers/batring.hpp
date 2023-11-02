@@ -1,4 +1,3 @@
-#include "value.hpp"
 #include <sstream>
 #include <string>
 #include <iomanip>
@@ -6,10 +5,10 @@
 // Convert types to string
 class Batring {
 	public:
-		static std::string num(double value);
-		static std::string result(std::string value);
+		static std::string num(const double value);
+		static std::string result(const std::string value);
 	private:
-		static std::string fix_float(double value) {
+		static std::string fix_float(const double value) {
 			std::stringstream ss;
 			ss << std::fixed << value;
 			std::string result = ss.str();

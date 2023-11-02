@@ -1,10 +1,10 @@
 #include "../headers/number.hpp"
 #include <stdexcept>
 
-Number::Number(double value) : value(value) {}
+Number::Number(const double value) : value(value) {}
 
 // Generic = Int | Float
-Number* Number::eval(double value, TokenType eval_type) {
+Number* Number::eval(const double value, const TokenType eval_type) {
 	// bool is_int = false;
 	// if(value == (int)value) is_int = true;
 
@@ -22,7 +22,7 @@ Number* Number::eval(double value, TokenType eval_type) {
 	}
 }
 
-Number* Number::set_pos(Position pos) {
+Number* Number::set_pos(const Position pos) {
 	this->pos = pos;
 	return this;
 }

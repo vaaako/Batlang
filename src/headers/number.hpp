@@ -10,17 +10,17 @@
 
 class Number {
 	public:
-		Number(double value);
+		Number(const double value);
 
-		Number* eval(double value, TokenType eval_type);
+		Number* eval(const double value, const TokenType eval_type);
 
-		Number* set_pos(Position pos);
+		Number* set_pos(const Position pos);
 	
-		inline double get_value() {
+		inline double get_value() const {
 			return value;
 		}
 
-		inline std::string as_string() {
+		inline std::string as_string() const {
 			return Batring::num(value);
 		}
 	private:

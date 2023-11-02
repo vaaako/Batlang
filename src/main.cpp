@@ -11,7 +11,7 @@
 
 // g++ -std=c++20 -Wall src/*.cpp -leditline -o batlang
 
-void run(std::string filename, std::string text) {
+void run(const std::string filename, const std::string text) {
 	if(text.empty()) return;
 
 	// Generate tokens

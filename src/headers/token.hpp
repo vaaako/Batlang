@@ -35,11 +35,13 @@ const std::unordered_map<char, TokenType> char_type_hash = {
 
 };
 
+// TODO mark hash_map as const
+
 class Token {
 	public:
-		Token(TokenType type, Position pos);
-		Token(TokenType type, Position pos, double value);
-		static TokenType from_char(char c);
+		Token(const TokenType type, const Position pos);
+		Token(const TokenType type, const Position pos, const double value);
+		static TokenType from_char(const char c);
 
 
 

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "position.hpp"
+
 #include <string>
 #include <unordered_map>
 
@@ -10,10 +11,13 @@ enum ErrorType {
 	RuntimeError
 };
 
+
+// TODO mark hash map as const later
+
 class Error {
 	public:
 		// Error(Position pos, Position pos_end, std::string name, std::string details);
-		Error(ErrorType error_type, Position pos, std::string details);
+		Error(const ErrorType error_type, const Position pos, const std::string details);
 		inline std::string as_string() const {
 			return colorize(name + ": ", "bold_red")
 					+ colorize(details, "green")

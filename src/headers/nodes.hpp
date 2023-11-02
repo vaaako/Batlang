@@ -18,11 +18,11 @@ enum class NodeType {
 class Node {
 	public:	
 		// Node(Token token, Node* left=nullptr, Node* right=nullptr);
-		Node(Token token);
-		Node(Token token, Node* left, Node* right);
-		Node(Token token, Node* left);
+		Node(const Token token);
+		Node(const Token token, Node* left, Node* right);
+		Node(const Token token, Node* left);
 
-		static std::string get_type_as_string(NodeType type);
+		static std::string get_type_as_string(const NodeType type);
 
 	
 		inline NodeType get_type() const {

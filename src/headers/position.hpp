@@ -5,11 +5,8 @@
 
 class Position {
 	public:
-		Position(size_t index, size_t line, size_t col, std::string filename, std::string text);
-
-		void advance(char cc);
-		// Position* advance(char cc);
-		// Position copy();
+		Position(const size_t index, const size_t line, const size_t col, const std::string filename, const std::string text);
+		void advance(const char cc);
 
 		inline size_t get_index() const {
 			return index;

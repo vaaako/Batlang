@@ -14,12 +14,11 @@ class Result {
 		Result set_error(Error error);
 		
 
-		
-		bool has_error() {
+		inline bool has_error() const {
 			return (error.has_value()) ? true : false;
 		}
 
-		inline std::optional<Error> get_error() {
+		inline std::optional<Error> get_error() const {
 			return error;
 		}
 
