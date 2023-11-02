@@ -1,5 +1,4 @@
 #include "../headers/result.hpp"
-#include <optional>
 
 Result::Result() {}
 

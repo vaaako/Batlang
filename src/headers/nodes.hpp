@@ -2,6 +2,8 @@
 
 #include "position.hpp"
 #include "token.hpp"
+
+#include <string>
 #include <locale>
 #include <optional>
 

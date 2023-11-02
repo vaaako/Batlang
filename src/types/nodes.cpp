@@ -1,5 +1,4 @@
 #include "../headers/nodes.hpp"
-#include <string>
 
 /*
 	!left && !right = Number

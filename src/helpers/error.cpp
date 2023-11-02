@@ -1,5 +1,4 @@
 #include "../headers/error.hpp"
-#include <string>
 
 /*
 	TODO: Better error messages
