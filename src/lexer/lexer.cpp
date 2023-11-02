@@ -35,7 +35,7 @@ LResult Lexer::make_tokens() {
 			TokenType tokenType = Token::from_char(cc);
 
 			if(tokenType == TokenType::UNKNOWN)
-				return LResult(Error(ErrorType::IllegalCharError, pos, "'" + std::string(1, cc) + "'"));
+				return { Error(ErrorType::IllegalCharError, pos, "'" + std::string(1, cc) + "'") };
 
 			tokens.push_back(Token(tokenType, pos));
 		}
@@ -45,7 +45,7 @@ LResult Lexer::make_tokens() {
 	}
 
 	tokens.push_back(Token(TokenType::TEOF, pos)); // End of File
-	return LResult(tokens);
+	return { tokens };
 }
 
 
