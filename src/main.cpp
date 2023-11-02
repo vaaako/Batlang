@@ -20,7 +20,7 @@ void run(const std::string filename, const std::string text) {
 
 	// If lexer as error
 	if(lexer_result.error.has_value()) {
-		std::cout << lexer_result.error->as_string() << std::endl;
+		Batring::error(lexer_result.error.value());
 		return;
 	}
 
@@ -30,23 +30,33 @@ void run(const std::string filename, const std::string text) {
 
 	// If parser has error
 	if(ast.has_error()) {
-		std::cout << ast.get_error().value().as_string() << std::endl;
+		Batring::error(ast.get_error().value());
 		return;
 	}
-
-	// Show nodes (debug)
-	// std::cout << ast.get_node()->as_string() << std::endl;
-
 
 	// Run interpreter
 	Interpreter interpreter = Interpreter();
 	Number* result = interpreter.visit(ast.get_node());
 
-	std::cout << Batring::result(result->as_string()) << std::endl;
-	// std::cout << "Token: ";
-	// for(Token token : tokens.first)
-	// 	std::cout << token.as_string() << " ";
-	// std::cout << std::endl;
+
+
+	/* Debug start */
+	// Show tokens (debug)
+	std::cout << "Token: ";
+	for(Token token : lexer_result.tokens)
+		Batring::result(token.as_string() + " ");
+
+	// Show nodes (debug)
+	std::cout << "\nNodes: ";
+	Batring::result(ast.get_node()->as_string());
+
+	std::cout << "\n";
+	/* Debug end */
+
+
+	// Show result of interpreter
+	Batring::result(result->as_string());
+	std::cout << std::endl;
 
 	// Delete unused node
 	delete ast.get_node();
