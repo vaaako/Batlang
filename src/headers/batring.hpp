@@ -1,22 +1,20 @@
+#pragma once
+
+#include "error.hpp"
+
 #include <sstream>
 #include <string>
 #include <iomanip>
 
-// Convert types to string
-class Batring {
-	public:
-		static std::string num(const double value);
-		static std::string result(const std::string value);
-	private:
-		static std::string fix_float(const double value) {
-			std::stringstream ss;
-			ss << std::fixed << value;
-			std::string result = ss.str();
 
-			// Remove trailing zeros
-			while(!result.empty() && (result.back() == '0' || result.back() == '.')) {
-				result.pop_back();
-			}
-			return result;
-		}
+// TODO mark hash map as const later
+
+// I used namaspace instead of a class because every method in here would be static
+namespace Batring {
+	std::string colorize(std::string text, std::string color);
+
+	std::string num(const double value);
+
+	void result(const std::string value);
+	void error(Error error);
 };
