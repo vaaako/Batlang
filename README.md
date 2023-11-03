@@ -71,16 +71,16 @@ cmake --build build
 This are some of my goals to this language
 ### May have changes
 
-# Basics
+## Basics
 - Simple
 - Statically Typed
 - Object-oriented
 - Lisp like
 
-# Syntax
+## Syntax
 I still don't know if I want to use brackets or not
 
-## With
+### With
 ```rust
 function is_zero(int y) -> bool {
 	let x: int = -1; // Semicolons are optional
@@ -96,7 +96,7 @@ function is_zero(int y) -> bool {
 }
 ```
 
-## Without
+### Without
 ```rust
 function is_zero(int y) -> bool then // This "then" is not really necessary, but it's odd without it
 	let x: int = -1; // Semicolons are optional
