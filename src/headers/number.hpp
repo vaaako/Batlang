@@ -9,6 +9,13 @@
  * - Just "number" type for now
  * */
 
+
+/**
+ * Thic lass creates a Number type
+ *
+ * Value is represented as double, but can have a type of INT or FLOAT, storing in double is just a simpler way of storing the value 
+ * */
+
 class Number {
 	public:
 		Number(const double value);
