@@ -18,7 +18,7 @@ Result Parser::factor() {
 		if(factor.has_error()) return res;
 
 		// Sucess
-		return res.set_node(new Node(token, factor.get_node()));
+		return res.sucess(new Node(token, factor.get_node()));
 
 
 	// Number //
@@ -26,7 +26,7 @@ Result Parser::factor() {
 		advance();
 		// res.registr(cur_token);
 
-		return res.set_node(new Node(token)); // Sucess
+		return res.sucess(new Node(token)); // Sucess
 
 
 	// Parentheses //
@@ -43,9 +43,9 @@ Result Parser::factor() {
 			advance();
 			// res.registr(cur_token);
 
-			return res.set_node(expr.get_node()); // Sucess
+			return res.sucess(expr.get_node()); // Sucess
 		} else {
-			return res.set_error(
+			return res.failure(
 				Error(ErrorType::InvalidSyntaxError,
 					  cur_token.get_pos(),
 					  "Expected ')'"
@@ -57,7 +57,7 @@ Result Parser::factor() {
 
 
 	// Don't start with a valid token, "Throw" error
-	return res.set_error(
+	return res.failure(
 		Error(ErrorType::InvalidSyntaxError,
 			  token.get_pos(),
 			  "Expected <INT>, <FLOAT> or '(' type, but got '" + token.value_as_string() + "'"
@@ -95,7 +95,7 @@ Result Parser::bind_op(const TokenType type1, const TokenType type2, const std::
 	}
 
 	// Return first node or new Node
-	return res.set_node(node); // Sucess
+	return res.sucess(node); // Sucess
 }
 
 

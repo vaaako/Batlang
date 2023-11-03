@@ -25,7 +25,7 @@ class Parser {
 
 			// Not reach the end of file
 			if(!res.has_error() && cur_token.get_type() != TokenType::TEOF) {
-				return res.set_error(
+				return res.failure(
 					Error(ErrorType::InvalidSyntaxError,
 						  cur_token.get_pos(),
 						  "Expected some operator"
