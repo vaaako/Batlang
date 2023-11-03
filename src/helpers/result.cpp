@@ -1,49 +1,22 @@
 #include "../headers/result.hpp"
 
-Result::Result() {}
+template <typename T>
+Result<T>::Result() {}
 
-Result Result::registr(Result res) {
+/* PResult */
+PResult::PResult() {}
+
+PResult PResult::registr(PResult res) {
 	if(res.has_error())
-		error = res.get_error().value();
-		// return res.node
+		error = std::move(res.get_error().value());
 	return res;
 }
-
-
-// Sucess (final node)
-Result Result::sucess(Node* node) {
-	this->node = node;
-	return *this;
-}
-
-// Failure
-Result Result::failure(Error error) {
-	this->error = error;
-	return *this;
-}
-
-
 
 /* RTResult */
 RTResult::RTResult() {}
 
 RTResult RTResult::registr(RTResult res) {
 	if(res.has_error())
-		error = res.get_error().value();
-		// return res.node
+		error = std::move(res.get_error().value());
 	return res;
 }
-
-RTResult RTResult::sucess(double value) {
-	this->value = value;
-	return *this;
-}
-
-RTResult RTResult::failure(Error error) {
-	this->error = error;
-	return *this;
-}
-
-
-
-

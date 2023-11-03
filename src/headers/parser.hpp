@@ -9,23 +9,28 @@
 #include <vector>
 #include <functional>
 
+/**
+ * This is the parser
+ * It works with the "result" class to handle erros
+ * 
+ * With the tokens from the "lexer" it checks if it's "in order"
+ * */
+
 class Parser {
 	public:
 		Parser(const std::vector<Token> tokens);
 
 		inline void advance() {
-			// if(++token_index < tokens.size())
-				// cur_token = pop();
-				// cur_token = tokens.at(token_index);
 			if(tokens.size() != 0) cur_token = pop_token();
 		}
 
-		inline Result parse() {
-			Result res = expr(); // MUL and DIV priority
+		inline PResult parse() {
+			PResult res = expr(); // MUL and DIV priority
 
 			// Not reach the end of file
 			if(!res.has_error() && cur_token.get_type() != TokenType::TEOF) {
-				return res.failure(
+				// Register error
+				res.failure(
 					Error(ErrorType::InvalidSyntaxError,
 						  cur_token.get_pos(),
 						  "Expected some operator"
@@ -33,30 +38,30 @@ class Parser {
 					);
 			}
 
+			// Return result
 			return res;
 		}
 
 
-		Result factor();
-		Result term();
-		Result expr();
+		PResult factor();
+		PResult term();
+		PResult expr();
 
 		// Node* bind_op(TokenType type1, TokenType type2, Node* (*func)());
-		Result bind_op(const TokenType type1, const TokenType type2, const std::function<Result ()> func);
+		PResult bind_op(const TokenType type1, const TokenType type2, const std::function<PResult ()> func);
 	private:
 		std::vector<Token> tokens;
-		// Token cur_token = tokens.at(0);
 		Token cur_token = pop_token();
 
 		std::optional<Error> error;
 
-		// size_t token_index = 0;
 
 		// Just a shortcut
 		inline bool has_types(const TokenType to_check, const TokenType type1, const TokenType type2) const {
 			return to_check == type1 || to_check == type2;
 		}
 
+		// Poping instead of just query
 		inline Token pop_token() {
 			Token token = tokens.at(0);
 			tokens.erase(tokens.begin());

@@ -31,7 +31,7 @@ void Batlang::run(const std::string filename, const std::string text, const bool
 
 	// Run interpreter
 	Interpreter interpreter = Interpreter();
-	Number result = interpreter.visit(ast.get_node());
+	Number result = interpreter.visit(ast.get_value());
 	/**
 	 * Nodes don't need to be a pointer, but is much easir to deal with nullptr than optinal
 	 * - I need to change later
@@ -47,7 +47,7 @@ void Batlang::run(const std::string filename, const std::string text, const bool
 
 		// Show nodes (debug)
 		std::cout << "\nNodes: ";
-		Batring::result(ast.get_node()->as_string());
+		Batring::result(ast.get_value()->as_string());
 
 		std::cout << "\n";
 	}
@@ -59,5 +59,5 @@ void Batlang::run(const std::string filename, const std::string text, const bool
 	std::cout << std::endl;
 
 	// Delete unused node
-	delete ast.get_node();
+	delete ast.get_value();
 }
