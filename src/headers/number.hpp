@@ -13,9 +13,9 @@ class Number {
 	public:
 		Number(const double value);
 
-		Number* eval(const double value, const TokenType eval_type);
+		Number eval(const double value, const TokenType eval_type);
 
-		Number* set_pos(const Position pos);
+		void set_pos(const Position pos);
 	
 		inline double get_value() const {
 			return value;

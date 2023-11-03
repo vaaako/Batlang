@@ -15,7 +15,7 @@
 
 Interpreter::Interpreter() {}
 
-Number* Interpreter::visit(Node* node) {
+Number Interpreter::visit(Node* node) {
 	switch (node->get_type()) {
 		case NodeType::NUMBER:
 			return visit_number(node);
@@ -30,27 +30,30 @@ Number* Interpreter::visit(Node* node) {
 }
 
 
-Number* Interpreter::visit_number(Node* node) {
-	return new Number(node->get_token().get_value());
+Number Interpreter::visit_number(Node* node) {
+	return Number(node->get_token().get_value());
 }
 
-Number* Interpreter::visit_binary(Node* node) {
+Number Interpreter::visit_binary(Node* node) {
 	// std::cout << "Found Binary" << std::endl;
-	Number* left = visit(node->get_left());
-	Number* right = visit(node->get_right());
+	Number left = visit(node->get_left());
+	Number right = visit(node->get_right());
 
-	return left->eval(right->get_value(), node->get_token().get_type()) // Value, type of evaluation (add, minus etc)
-			->set_pos(node->get_pos()); // Set position
+	Number result = left.eval(right.get_value(), node->get_token().get_type()); // Value, type of evaluation (add, minus etc)
+	result.set_pos(node->get_pos()); // Set position
+
+	return result;
 }
 
 
-Number* Interpreter::visit_unary(Node* node) {
+Number Interpreter::visit_unary(Node* node) {
 	// std::cout << "Found Unary" << std::endl;
-	Number* number = visit(node->get_child());
+	Number number = visit(node->get_child());
 
 	// -1 because -> --X = X
 	if(node->get_token().get_type() == TokenType::MINUS)
-		number = number->eval(-1, TokenType::MUL);
-
-	return number->set_pos(node->get_pos());
+		number = number.eval(-1, TokenType::MUL);
+	
+	number.set_pos(node->get_pos());
+	return number;
 }
