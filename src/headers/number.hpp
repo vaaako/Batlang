@@ -6,26 +6,50 @@
 #include <optional>
 
 /**
- * - Just "number" type for now
- * */
-
-
-/**
- * Thic lass creates a Number type
+ * This class creates a Number type
  *
  * Value is represented as double, but can have a type of INT or FLOAT, storing in double is just a simpler way of storing the value 
  * */
+
+
+// I'm just using this instead of "BasicResult" because this would cause a circulatory
+struct EvalResult {
+	double value;
+	std::optional<Error> error;
+
+	EvalResult(const double value) : value(value) {}
+	EvalResult(const Error error) : error(error) {}
+
+	bool has_error() {
+		return error.has_value();
+	}
+
+	inline Error get_error() {
+		return error.value();
+	}
+
+	inline double get_value() const {
+		return value;
+	}
+};
 
 class Number {
 	public:
 		Number(const double value);
 
-		Number eval(const double value, const TokenType eval_type);
+		EvalResult eval(const double value, const TokenType eval_type, const Position pos);
 
-		void set_pos(const Position pos);
+		inline Number set_pos(const Position pos) {
+			this->pos = pos;
+			return *this;
+		}
 	
 		inline double get_value() const {
 			return value;
+		}
+
+		inline Position get_pos() const {
+			return pos.value();
 		}
 
 		inline std::string as_string() const {

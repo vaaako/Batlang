@@ -21,7 +21,7 @@ int main() {
 		add_history(input);
 
 		// Run (duurh)
-		Batlang::run("<stdin>", std::string(input), false);
+		Batlang::run("<stdin>", std::string(input), true);
 		
 		// Free input memory
 		delete[] input;

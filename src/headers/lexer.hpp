@@ -1,5 +1,6 @@
 #pragma once
 
+// #include "result.hpp"
 #include "token.hpp"
 #include "error.hpp"
 #include "position.hpp"
@@ -8,20 +9,30 @@
 #include <string>
 #include <vector>
 
-// Lexer result
-struct LResult {
-	std::vector<Token> tokens;
+struct LexerResult {
+	std::vector<Token> value;
 	std::optional<Error> error;
 
-	// LResult(std::vector<Token> tokens, Error error) : tokens(tokens), error(error) {}
-	LResult(const std::vector<Token> tokens) : tokens(tokens) {}
-	LResult(const Error error) : tokens({}), error(error) {}
+	LexerResult(const std::vector<Token> value) : value(value) {}
+	LexerResult(const Error error) : error(error) {}
+
+	inline bool has_error() const {
+		return error.has_value();
+	}
+
+	inline Error get_error() const {
+		return error.value();
+	}
+
+	inline std::vector<Token> get_value() const {
+		return value;
+	}
 };
 
 class Lexer {
 	public:
 		Lexer(const std::string filename, const std::string text);
-		LResult make_tokens();
+		LexerResult make_tokens();
 	private:
 		std::string text;
 		Position pos;

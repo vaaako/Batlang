@@ -2,6 +2,7 @@
 #include "../headers/error.hpp"
 #include "../headers/token.hpp"
 
+#include <cctype>
 #include <iostream>
 
 Lexer::Lexer(const std::string filename, const std::string text) : text(text), pos(Position(0, 0, 0, filename, text)) {
@@ -15,7 +16,7 @@ void Lexer::advance() {
 }
 
 
-LResult Lexer::make_tokens() {
+LexerResult Lexer::make_tokens() {
 	std::vector<Token> tokens;
 
 	// while(pos.get_index() < text.length()) {

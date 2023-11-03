@@ -43,7 +43,7 @@ class Node {
 			return right;
 		}
 
-		Position get_pos() {
+		inline Position get_pos() const {
 			return pos;
 		}
 

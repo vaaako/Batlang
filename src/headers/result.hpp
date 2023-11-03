@@ -2,6 +2,8 @@
 
 #include "error.hpp"
 #include "nodes.hpp"
+#include "number.hpp"
+#include "token.hpp"
 
 #include <optional>
 
@@ -14,11 +16,35 @@
  * But, if no errors occured, return result with the value (sucess)
  * */
 
+template <typename T>
+class BasicResult {
+	public:
+		BasicResult(const T value, const Error error) : value(value), error(error) {} // In case default "value" can't be 0
+		BasicResult(const T value) : value(value) {}
+		BasicResult(const Error error) : value(0), error(error) {}
+
+		inline bool has_error() const {
+			return error.has_value();
+		}
+
+		inline Error get_error() const {
+			return error.value();
+		}
+
+		inline T get_value() const {
+			return value;
+		}
+	private:
+		T value;
+		std::optional<Error> error;
+};
+
 
 template <typename T>
 class Result {
 	public:
-		Result();
+		Result() {}
+		Result(T value) : value(value) {}
 
 		// Register
 		Result<T> registr(Result<T> res);
@@ -37,11 +63,11 @@ class Result {
 			return (error.has_value()) ? true : false;
 		}
 
-		inline std::optional<Error> get_error() const {
-			return error;
+		inline Error get_error() const {
+			return error.value();
 		}
 
-		inline T get_value() {
+		inline T get_value() const {
 			return value;
 		}
 
@@ -51,6 +77,7 @@ class Result {
 };
 
 
+// Parser Result
 class PResult : public Result<Node*> {
 	public:
 		PResult();
@@ -60,7 +87,8 @@ class PResult : public Result<Node*> {
 	private:
 };
 
-class RTResult : public Result<double> {
+// Runtime Result (interpreter)
+class RTResult : public Result<Number> {
 	public:
 		RTResult();
 

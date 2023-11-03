@@ -1,32 +1,34 @@
 #include "../headers/number.hpp"
+#include "../headers/error.hpp"
+
 #include <stdexcept>
 
 Number::Number(const double value) : value(value) {}
 
-// Generic = Int | Float
-Number Number::eval(const double value, const TokenType eval_type) {
-	// bool is_int = false;
-	// if(value == (int)value) is_int = true;
-
+EvalResult Number::eval(const double value, const TokenType eval_type, const Position pos) {
+	double result;
 	switch (eval_type) {
 		case TokenType::PLUS:
-			return Number(this->value + value);
+			result = this->value + value;
+			break;
 		case TokenType::MINUS:
-			return Number(this->value - value);
+			result = this->value - value;
+			break;
 		case TokenType::MUL:
-			return Number(this->value * value);
+			result = this->value * value;
+			break;
 		case TokenType::DIV:
-			return Number(this->value / value);
+			// This is just a test, after I will return as NAN
+			if(this->value == 0 && value == 0) return { Error(ErrorType::RuntimeError, pos, "Division by 0") };
+
+			result = this->value / value;
+			break;
 		default:
 			throw std::runtime_error("Invalid operator at Number::eval");
 	}
+
+	return { result };
 }
-
-void Number::set_pos(const Position pos) {
-	this->pos = pos;
-}
-
-
 
 
 /* PRIVATE */

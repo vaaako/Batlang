@@ -1,5 +1,6 @@
 #include "../headers/interpreter.hpp"
 #include "../headers/token.hpp"
+#include "../headers/result.hpp"
 
 #include <iostream>
 #include <stdexcept>
@@ -15,7 +16,7 @@
 
 Interpreter::Interpreter() {}
 
-Number Interpreter::visit(Node* node) {
+RTResult Interpreter::visit(Node* node) {
 	switch (node->get_type()) {
 		case NodeType::NUMBER:
 			return visit_number(node);
@@ -30,30 +31,62 @@ Number Interpreter::visit(Node* node) {
 }
 
 
-Number Interpreter::visit_number(Node* node) {
-	return Number(node->get_token().get_value());
+RTResult Interpreter::visit_number(Node* node) {
+	RTResult res = RTResult();
+	res.sucess(Number(node->get_token().get_value()));
+	return res;
 }
 
-Number Interpreter::visit_binary(Node* node) {
+RTResult Interpreter::visit_binary(Node* node) {
 	// std::cout << "Found Binary" << std::endl;
-	Number left = visit(node->get_left());
-	Number right = visit(node->get_right());
+	RTResult res = RTResult();
 
-	Number result = left.eval(right.get_value(), node->get_token().get_type()); // Value, type of evaluation (add, minus etc)
-	result.set_pos(node->get_pos()); // Set position
+	// Get numbers
+	Number left = visit(node->get_left()).get_value();
+	Number right = visit(node->get_right()).get_value();
 
-	return result;
+	// Eval
+	EvalResult result = left.eval(right.get_value(), node->get_token().get_type(), node->get_pos()); // Value, type of evaluation (add, minus etc)
+	
+	// Check for error
+	if(result.has_error()) {
+		res.failure(result.get_error());
+		return res;
+	}
+
+	// Sucess
+	res.sucess(
+		Number(result.get_value()).set_pos(node->get_pos()) // Make a number type with the result
+	);
+
+	return res;
 }
 
 
-Number Interpreter::visit_unary(Node* node) {
+RTResult Interpreter::visit_unary(Node* node) {
 	// std::cout << "Found Unary" << std::endl;
-	Number number = visit(node->get_child());
+	RTResult res = RTResult();
 
-	// -1 because -> --X = X
+	RTResult number = res.registr(visit(node->get_child()));
+	if(res.has_error()) res.failure(number.get_error()); // Check error from visit
+
+	// Eval
+	EvalResult result = 0;
 	if(node->get_token().get_type() == TokenType::MINUS)
-		number = number.eval(-1, TokenType::MUL);
-	
-	number.set_pos(node->get_pos());
+		// -1 because -> --X = +X
+		result = number.get_value().eval(-1, TokenType::MUL, node->get_pos());
+
+	// Check result error
+	if(result.has_error()) {
+		res.failure(result.get_error());
+		return res;
+	}
+
+	// Sucess
+	res.sucess(
+		Number(
+			(result.get_value() == 0) ? number.get_value() : result.get_value() // Get value of initial number or the result from eval (if has)
+		).set_pos(node->get_pos())
+	); // Change initial value
 	return number;
 }

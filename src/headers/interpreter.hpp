@@ -2,6 +2,7 @@
 
 #include "nodes.hpp"
 #include "number.hpp"
+#include "result.hpp"
 
 /**
  * This class assembles everything from Lexer and Parser to print a result of all
@@ -13,9 +14,9 @@ class Interpreter {
 	public:
 		Interpreter();
 
-		Number visit(Node* node);
-		Number visit_number(Node* node);
-		Number visit_binary(Node* node);
-		Number visit_unary(Node* node);
+		RTResult visit(Node* node);
+		RTResult visit_number(Node* node);
+		RTResult visit_binary(Node* node);
+		RTResult visit_unary(Node* node);
 	private:
 };
