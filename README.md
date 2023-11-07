@@ -11,7 +11,10 @@ Currently it has:
 - Lexer
 - Parser
 - Error Handler
+	+ With context
 - Expression Interpreter
+
+![showcase](media/showcase.gif)
 
 # Running
 **WARNING:** This was only tested on `Ubuntu` only,
