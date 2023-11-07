@@ -112,6 +112,9 @@ function is_zero(int y) -> bool then // This "then" is not really necessary, but
 end
 ```
 
+# Known bugs
+- [ ] Unary Nodes give an error when trying to print 
+
 # TODO
 - [ ] Install support to `Arch` and `Fedora` on `instal_requirements.sh`
 - [ ] Remove install of `editline` and put to a `include` instead
