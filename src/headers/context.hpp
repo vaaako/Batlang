@@ -35,7 +35,8 @@ class Context {
 
 
 		~Context() {
-			delete parent;
+			if(parent != nullptr)
+				delete parent;
 		}
 	private:
 		std::string name;
