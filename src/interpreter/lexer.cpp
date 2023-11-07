@@ -36,6 +36,8 @@ LexerResult Lexer::make_tokens() {
 
 			if(tokenType == TokenType::UNKNOWN)
 				return { Error(ErrorType::IllegalCharError, "'" + std::string(1, cc) + "'", pos) };
+				// pos-start = pos_start (copy of this->pos) / pos-end = this->pos
+
 
 			tokens.push_back(Token(tokenType, pos));
 		}
@@ -52,6 +54,7 @@ LexerResult Lexer::make_tokens() {
 Token Lexer::make_num() {
 	std::string num_str;
 	int dot_count = 0;
+	// pos_start = pos.copy();
 
 	// While not the end
 	while(pos.get_index() != -1) {
@@ -71,6 +74,9 @@ Token Lexer::make_num() {
 	// If is INT or float
 	return (dot_count == 0) ? Token(TokenType::INT, pos, static_cast<int>(std::stoi(num_str))) // Converting to Int
 		: Token(TokenType::FLOAT, pos, static_cast<double>(std::stod(num_str))); // Converting to Double, so the maximum precision are 6 decimals
+	// pos-start = pos_start / pos_end = this->pos
+
+
 	/**
 	 * @WARNING: If changing "double" (Float type) to another type, remember to change at any place that stores value: token, number and batring
 	 *           - On changing "int" (Int type) it is only needed to change at "batring", because Integer is only really used on printing (for now)

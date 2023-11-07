@@ -88,6 +88,14 @@ class Token {
 	private:
 		TokenType type;
 		Position pos;
+		/**
+		 * pos_start is optional
+		 * if has pos_start as constructor paramter
+		 * 	- pos_end = copy of pos_start
+		 * 	- pos_end.advance()
+		 * 
+		 * */
+
 		std::optional<double> value;
 		// std::optional<Position> pos_end;
 
