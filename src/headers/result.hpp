@@ -1,7 +1,7 @@
 #pragma once
 
 #include "error.hpp"
-#include "nodes.hpp"
+#include "node.hpp"
 #include "number.hpp"
 #include "token.hpp"
 

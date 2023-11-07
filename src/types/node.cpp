@@ -1,4 +1,4 @@
-#include "../headers/nodes.hpp"
+#include "../headers/node.hpp"
 
 /*
 	!left && !right = Number
