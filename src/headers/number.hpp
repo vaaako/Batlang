@@ -1,5 +1,6 @@
 #pragma once
 
+#include "context.hpp"
 #include "position.hpp"
 #include "token.hpp"
 
@@ -36,14 +37,12 @@ struct EvalResult {
 class Number {
 	public:
 		Number(const double value);
+		Number(const double value, const Position& pos);
+		Number(const double value, const Context& context);
+		Number(const double value, const Position& pos, const Context& context);
 
 		EvalResult eval(const double value, const TokenType eval_type, const Position& pos);
 
-		inline Number set_pos(const Position pos) {
-			this->pos = pos;
-			return *this;
-		}
-	
 		inline double get_value() const {
 			return value;
 		}
@@ -52,12 +51,23 @@ class Number {
 			return pos.value();
 		}
 
+
+		inline void set_pos(const Position pos) {
+			this->pos = pos;
+		}	
+
+		inline void set_context(const Context& context) {
+			this->context = context;
+		}
+
+
 		inline std::string as_string() const {
 			return Batring::num(value);
 		}
 	private:
-		std::optional<Position> pos;
 		double value;
+		std::optional<Position> pos;
+		std::optional<Context> context;
 
 		// Value value_num; // I don't how to call this, this is just to have a different name
 };

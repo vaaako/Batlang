@@ -32,8 +32,8 @@ class Parser {
 				// Register error
 				res.failure(
 					Error(ErrorType::InvalidSyntaxError,
-						  cur_token.get_pos(),
-						  "Expected some operator"
+						  "Expected some operator",
+						  cur_token.get_pos()
 						)
 					);
 			}

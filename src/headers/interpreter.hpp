@@ -1,5 +1,6 @@
 #pragma once
 
+#include "context.hpp"
 #include "node.hpp"
 #include "number.hpp"
 #include "result.hpp"
@@ -12,11 +13,12 @@
 
 class Interpreter {
 	public:
-		Interpreter();
+		Interpreter(Context& context);
 
 		RTResult visit(const Node& node);
 		RTResult visit_number(const Node& node);
 		RTResult visit_binary(const Node& node);
 		RTResult visit_unary(const Node& node);
 	private:
+		Context& context;
 };

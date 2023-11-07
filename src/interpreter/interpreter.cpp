@@ -16,7 +16,7 @@
 // 		: static_cast<double>(token.get_value())
 
 
-Interpreter::Interpreter() {}
+Interpreter::Interpreter(Context& context) : context(context) {}
 
 RTResult Interpreter::visit(const Node& node) {
 	switch (node.get_type()) {
@@ -35,7 +35,11 @@ RTResult Interpreter::visit(const Node& node) {
 
 RTResult Interpreter::visit_number(const Node& node) {
 	RTResult res = RTResult();
-	res.sucess(Number(node.get_token().get_value()));
+
+	// Make number and set context
+	res.sucess(
+		Number(node.get_token().get_value(), context)
+	);
 	return res;
 }
 
@@ -57,9 +61,11 @@ RTResult Interpreter::visit_binary(const Node& node) {
 	}
 
 	// Sucess
-	res.sucess(
-		Number(result.get_value()).set_pos(node.get_pos()) // Make a number type with the result
-	);
+	res.sucess(Number(
+		result.get_value(), // Make a number type with the result
+		node.get_pos(),
+		context
+	));
 
 	return res;
 }
@@ -68,12 +74,11 @@ RTResult Interpreter::visit_binary(const Node& node) {
 RTResult Interpreter::visit_unary(const Node& node) {
 	// std::cout << "Found Unary" << std::endl;
 	RTResult res = RTResult();
-
 	RTResult number = res.registr(visit(node.get_child()));
 	if(res.has_error()) res.failure(number.get_error()); // Check error from visit
 
 	// Eval
-	EvalResult result = 0;
+	EvalResult result = 0; // I'm just using EvalResult and not RTResult to avoid circular import
 	if(node.get_token().get_type() == TokenType::MINUS)
 		// -1 because -> --X = +X
 		result = number.get_value().eval(-1, TokenType::MUL, node.get_pos());
@@ -84,12 +89,12 @@ RTResult Interpreter::visit_unary(const Node& node) {
 		return res;
 	}
 
-	// Sucess
-	res.sucess(
-		Number(
-			(result.get_value() == 0) ? number.get_value() : result.get_value() // Get value of initial number or the result from eval (if has)
-		).set_pos(node.get_pos())
-	); // Change initial value
+	// Sucess	
+	res.sucess(Number(
+		(result.get_value() == 0) ? number.get_value().get_value() : result.get_value(), // Get value of initial number or the result from eval (if has)
+		node.get_pos(),
+		context
+	)); // Change initial value
 
 	return res;
 }

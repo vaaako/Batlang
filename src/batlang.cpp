@@ -1,6 +1,7 @@
 #include "headers/batlang.hpp"
 
 #include "headers/batring.hpp"
+#include "headers/context.hpp"
 #include "headers/lexer.hpp"
 #include "headers/result.hpp"
 #include "headers/token.hpp"
@@ -32,11 +33,13 @@ void Batlang::run(const std::string& filename, const std::string& text, const bo
 	}
 
 	// Run interpreter
-	Interpreter interpreter = Interpreter();
+	Context context = Context("<program>"); // Make context
+
+	Interpreter interpreter = Interpreter(context);
 	RTResult result = interpreter.visit(*ast.get_value());
 	/**
-	 * Nodes don't need to be a pointer, but is much easir to deal with nullptr than optinal
-	 * - I need to change later
+	 * Nodes doesn't need to be a pointer, but is much easier to deal with nullptr than optinal
+	 * and now is harder to change it
 	 * */
 
 	// If interpreter has error

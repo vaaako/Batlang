@@ -35,7 +35,7 @@ LexerResult Lexer::make_tokens() {
 			TokenType tokenType = Token::from_char(cc);
 
 			if(tokenType == TokenType::UNKNOWN)
-				return { Error(ErrorType::IllegalCharError, pos, "'" + std::string(1, cc) + "'") };
+				return { Error(ErrorType::IllegalCharError, "'" + std::string(1, cc) + "'", pos) };
 
 			tokens.push_back(Token(tokenType, pos));
 		}

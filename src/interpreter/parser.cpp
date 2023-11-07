@@ -49,8 +49,8 @@ PResult Parser::factor() {
 
 		res.failure(
 			Error(ErrorType::InvalidSyntaxError,
-				  cur_token.get_pos(),
-				  "Expected ')', but got '" + cur_token.value_as_string() + "'"
+				  "Expected ')', but got '" + cur_token.value_as_string() + "'",
+				  cur_token.get_pos()
 			)
 		);
 		return res;
@@ -61,8 +61,8 @@ PResult Parser::factor() {
 	// Don't start with a valid token, "Throw" error
 	res.failure(
 		Error(ErrorType::InvalidSyntaxError,
-			  token.get_pos(),
-			  "Expected <INT>, <FLOAT> or '(' type, but got '" + token.value_as_string() + "'"
+			  "Expected <INT>, <FLOAT> or '(' type, but got '" + token.value_as_string() + "'",
+			  token.get_pos()
 			)
 		);
 	return res;

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "context.hpp"
 #include "position.hpp"
 
 #include <string>
@@ -15,9 +16,8 @@ enum class ErrorType {
 
 class Error {
 	public:
-		// Error(Position pos, Position pos_end, std::string name, std::string detail);
-		Error(const ErrorType error_type, const Position& pos, const std::string detail);
-		Error(const ErrorType error_type, const std::string detail);
+		Error(const ErrorType error_type, const std::string detail, const Position& pos, const Context& context);
+		Error(const ErrorType error_type, const std::string detail, const Position& pos);
 
 		inline std::string get_name() const {
 			return name;
@@ -31,10 +31,20 @@ class Error {
 			return pos;
 		}
 
+		inline Context get_context() const {
+			return context.value();
+		}
+
+		inline bool has_context() const {
+			return context.has_value();
+		}
+
 	private:
-		Position pos;
-		std::string name;
 		std::string detail;
+		Position pos;
+		std::optional<Context> context;
+		std::string name;
+
 
 		std::unordered_map<ErrorType, std::string> error_hash = {
 			{ ErrorType::IllegalCharError,   "Illegal Character"  },

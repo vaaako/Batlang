@@ -4,9 +4,14 @@
 #include <stdexcept>
 
 Number::Number(const double value) : value(value) {}
+Number::Number(const double value, const Position& pos) : value(value), pos(pos) {}
+Number::Number(const double value, const Context& context) : value(value), context(context) {}
+Number::Number(const double value, const Position& pos, const Context& context) : value(value), pos(pos), context(context) {}
+
 
 EvalResult Number::eval(const double value, const TokenType eval_type, const Position& pos) {
 	double result;
+
 	switch (eval_type) {
 		case TokenType::PLUS:
 			result = this->value + value;
@@ -19,13 +24,14 @@ EvalResult Number::eval(const double value, const TokenType eval_type, const Pos
 			break;
 		case TokenType::DIV:
 			// This is just a test, after I will return as NAN
-			if(this->value == 0 && value == 0) return { Error(ErrorType::RuntimeError, pos, "Division by 0") };
+			if(this->value == 0 && value == 0) return { Error(ErrorType::RuntimeError, "Division by 0", pos, context.value()) };
 
 			result = this->value / value;
 			break;
 		default:
 			throw std::runtime_error("Invalid operator at Number::eval");
 	}
+
 
 	return { result };
 }

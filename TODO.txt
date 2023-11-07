@@ -1,0 +1,11 @@
+- Better error messages
+- Unary Nodes don't print
+- Replace EvalError
+	+ To fix this I have to think in another way to declare RTResult
+- Replace LexerError
+	+ I don't remember why I didn't use BasicResult
+
+X Make members const
+	+ Don't need to (for now)
+X Nodes don't need to be pointers (is just easier)
+	+ It's harder to fix

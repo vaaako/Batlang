@@ -1,5 +1,6 @@
 #include "../headers/batring.hpp"
 
+#include <algorithm>
 #include <iostream>
 
 /* Helpers start */
@@ -29,6 +30,17 @@ std::string fix_float(const double& value) {
 	}
 	return result;
 }
+
+std::string generate_traceback(Context context) {
+	std::string result = "";
+	// const Position pos = context.get_pos();
+	result += Batring::colorize("\nIn: ", "gray")
+			+ Batring::colorize(context.get_name(), "yellow");
+
+	// If has parent generate traceback for all parents
+	if(context.has_parent()) result += generate_traceback(context.get_parent());
+	return result;
+}
 /* Helpers end */
 
 
@@ -46,16 +58,42 @@ void Batring::result(const std::string value) {
 	std::cout << colorize(value, "yellow");
 }
 
-void Batring::error(const Error& error) {
-	Position pos = error.get_pos();
-	std::cout << colorize(error.get_name() + ": ", "bold_red")
-			+ colorize(error.get_detail(), "green")
-			+ colorize("\nFile: ", "gray")
-			+ colorize(pos.get_filename(), "yellow")
-			+ colorize(" at index position ", "white")
-			+ colorize(std::to_string(pos.get_index()), "blue")
-			+ ", line "
-			+ colorize(std::to_string(pos.get_line() + 1), "blue")
-	<< std::endl; // It won't work without this
+
+/**
+ * To improve context message I need to improve the recursive, instead of making recursive with context itself
+ * I need to make recusive with Error object 
+ * 
+ * Something like that:
+
+Position pos = error.get_pos();
+Context context = error.get_context();
+
+while(context) {
+	result += *message*;
+	pos = context.get_pos();
 }
+
+return result
+*/
+
+void Batring::error(const Error& error) {
+	std::string result;
+	const Position pos = error.get_pos();
+
+	// Erro name display
+	result += colorize(error.get_name() + ": ", "bold_red")
+			+ colorize(error.get_detail(), "green");
+
+	// Error traceback display
+	if(error.has_context()) result += generate_traceback(error.get_context());
+	result += Batring::colorize("\nFile: ", "gray")
+			+ Batring::colorize(pos.get_filename(), "yellow")
+			+ Batring::colorize(" at index position ", "white")
+			+ Batring::colorize(std::to_string(pos.get_index()), "blue")
+			+ ", line "
+			+ Batring::colorize(std::to_string(pos.get_line() + 1), "blue");
+
+	std::cout << result << std::endl; // It won't work without std::endl
+}
+
 

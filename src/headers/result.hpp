@@ -60,7 +60,7 @@ class Result {
 		
 
 		inline bool has_error() const {
-			return (error.has_value()) ? true : false;
+			return error.has_value();
 		}
 
 		inline Error get_error() const {
