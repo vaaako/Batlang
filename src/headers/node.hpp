@@ -45,11 +45,11 @@ class Node {
 			return token;
 		}
 
-		inline Node get_left() const {
+		inline const Node& get_left() const {
 			return *left;
 		}
 
-		inline Node get_right() const {
+		inline const Node& get_right() const {
 			return *right;
 		}
 

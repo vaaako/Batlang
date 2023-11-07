@@ -113,7 +113,7 @@ end
 ```
 
 # Known bugs
-- [ ] Unary Nodes give an error when trying to print 
+- [X] Unary Nodes give an error when trying to print 
 
 # TODO
 - [ ] Install support to `Arch` and `Fedora` on `instal_requirements.sh`

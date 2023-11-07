@@ -1,11 +1,26 @@
+```
+"-" - Problem
+"+" - Note
+"=>" - Solution to the problem above
+```
+
 - Better error messages
-- Unary Nodes don't print
 - Replace EvalError
 	+ To fix this I have to think in another way to declare RTResult
 - Replace LexerError
 	+ I don't remember why I didn't use BasicResult
 
+
+
 X Make members const
-	+ Don't need to (for now)
+	=> Don't need to (for now)
 X Nodes don't need to be pointers (is just easier)
-	+ It's harder to fix
+	=> It's harder to fix
+
+X Unary Nodes don't print
+	+ I don't know why this is happening
+	+ node.hpp:85
+	+ For some reason the expression "(N OP N) OP N" gives the same error
+X 3 + 3 * (4 / 2) => free(): double free detected in tcache 2
+	+ I don't know why
+=> get_left() and get_right() was returnin "Node" I just changed to return "const Node&"
