@@ -119,6 +119,7 @@ end
 - [ ] Install support to `Arch` and `Fedora` on `instal_requirements.sh`
 - [ ] Remove install of `editline` and put to a `include` instead
 - [ ] Better error message
+- [ ] Better context message
 
 # Credits
 Made by me<br>
