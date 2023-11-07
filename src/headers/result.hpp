@@ -19,9 +19,9 @@
 template <typename T>
 class BasicResult {
 	public:
-		BasicResult(const T value, const Error error) : value(value), error(error) {} // In case default "value" can't be 0
+		BasicResult(const T value, const Error& error) : value(value), error(error) {} // In case default "value" can't be 0
 		BasicResult(const T value) : value(value) {}
-		BasicResult(const Error error) : value(0), error(error) {}
+		BasicResult(const Error& error) : value(0), error(error) {}
 
 		inline bool has_error() const {
 			return error.has_value();
@@ -83,7 +83,7 @@ class PResult : public Result<Node*> {
 		PResult();
 
 		// I have to do this in each child because it have to accept only itself
-		PResult registr(PResult res);
+		PResult registr(const PResult& res);
 	private:
 };
 
@@ -92,6 +92,6 @@ class RTResult : public Result<Number> {
 	public:
 		RTResult();
 
-		RTResult registr(RTResult res);
+		RTResult registr(const RTResult& res);
 	private:
 };

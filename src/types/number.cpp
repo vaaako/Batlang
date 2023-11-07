@@ -5,7 +5,7 @@
 
 Number::Number(const double value) : value(value) {}
 
-EvalResult Number::eval(const double value, const TokenType eval_type, const Position pos) {
+EvalResult Number::eval(const double value, const TokenType eval_type, const Position& pos) {
 	double result;
 	switch (eval_type) {
 		case TokenType::PLUS:

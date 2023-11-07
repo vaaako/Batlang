@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-Parser::Parser(const std::vector<Token> tokens) : tokens(tokens) {}
+Parser::Parser(const std::vector<Token>& tokens) : tokens(tokens) {}
 
 PResult Parser::factor() {
 	PResult res = PResult();

@@ -3,6 +3,7 @@
 #include "position.hpp"
 #include "token.hpp"
 
+#include <algorithm>
 #include <string>
 #include <locale>
 #include <optional>
@@ -17,12 +18,21 @@ enum class NodeType {
 	UNARY
 };
 
+
+/**
+ * This class takes a token and (optional) two other Nodes to assemble
+ * in a single value
+ * e.g. [INT:1 MUL:* [INT:2 PLUS:+ INT:2]]
+ * 
+ * [] - Represents a node
+ * */
+
 class Node {
 	public:	
 		// Node(Token token, Node* left=nullptr, Node* right=nullptr);
 		Node(const Token token);
-		Node(const Token token, Node* left, Node* right);
 		Node(const Token token, Node* left);
+		Node(const Token token, Node* left, Node* right);
 
 		static std::string get_type_as_string(const NodeType type);
 
@@ -35,12 +45,12 @@ class Node {
 			return token;
 		}
 
-		inline Node* get_left() {
-			return left;
+		inline Node get_left() const {
+			return *left;
 		}
 
-		inline Node* get_right() {
-			return right;
+		inline Node get_right() const {
+			return *right;
 		}
 
 		inline Position get_pos() const {
@@ -55,7 +65,10 @@ class Node {
 		}
 
 
-		~Node();
+		~Node() {
+			delete left;
+			delete right;
+		}
 	private:
 		Token token;
 		NodeType type = NodeType::UNKNOWN; // Just for the compiler don't complain about
@@ -69,7 +82,7 @@ class Node {
 		inline std::string get_nodes() const {
 			std::string result = "";
 
-			if(left != nullptr)
+			if(left != nullptr) // Error here
 				result += left->as_string() + " "; // Recursively print left subtree.
 
 			result += token.as_string();

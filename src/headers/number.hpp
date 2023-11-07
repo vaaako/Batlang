@@ -18,7 +18,7 @@ struct EvalResult {
 	std::optional<Error> error;
 
 	EvalResult(const double value) : value(value) {}
-	EvalResult(const Error error) : error(error) {}
+	EvalResult(const Error& error) : error(error) {}
 
 	bool has_error() {
 		return error.has_value();
@@ -37,7 +37,7 @@ class Number {
 	public:
 		Number(const double value);
 
-		EvalResult eval(const double value, const TokenType eval_type, const Position pos);
+		EvalResult eval(const double value, const TokenType eval_type, const Position& pos);
 
 		inline Number set_pos(const Position pos) {
 			this->pos = pos;

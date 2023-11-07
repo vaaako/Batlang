@@ -16,7 +16,7 @@ enum class ErrorType {
 class Error {
 	public:
 		// Error(Position pos, Position pos_end, std::string name, std::string detail);
-		Error(const ErrorType error_type, const Position pos, const std::string detail);
+		Error(const ErrorType error_type, const Position& pos, const std::string detail);
 		Error(const ErrorType error_type, const std::string detail);
 
 		inline std::string get_name() const {

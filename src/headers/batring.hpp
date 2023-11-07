@@ -11,10 +11,10 @@
 
 // I used namaspace instead of a class because every method in here would be static
 namespace Batring {
-	std::string colorize(std::string text, std::string color);
+	std::string colorize(const std::string& text, const std::string color);
 
 	std::string num(const double value);
 
 	void result(const std::string value);
-	void error(Error error);
+	void error(const Error& error);
 };

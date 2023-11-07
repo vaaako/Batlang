@@ -37,8 +37,8 @@ const std::unordered_map<char, TokenType> char_type_hash = {
 
 class Token {
 	public:
-		Token(const TokenType type, const Position pos);
-		Token(const TokenType type, const Position pos, const double value);
+		Token(const TokenType type, const Position& pos);
+		Token(const TokenType type, const Position& pos, const double value);
 		static TokenType from_char(const char c);
 
 

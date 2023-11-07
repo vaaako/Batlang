@@ -14,11 +14,11 @@ std::unordered_map<std::string, std::string> color_hash = {
 	{ "white",    "\033[37m" }
 };
 
-std::string Batring::colorize(std::string text, std::string color)  {
+std::string Batring::colorize(const std::string& text, const std::string color)  {
 	return color_hash.at(color) + text + color_hash.at("reset");
 }
 
-std::string fix_float(const double value) {
+std::string fix_float(const double& value) {
 	std::stringstream ss;
 	ss << std::fixed << value;
 	std::string result = ss.str();
@@ -46,7 +46,7 @@ void Batring::result(const std::string value) {
 	std::cout << colorize(value, "yellow");
 }
 
-void Batring::error(Error error) {
+void Batring::error(const Error& error) {
 	Position pos = error.get_pos();
 	std::cout << colorize(error.get_name() + ": ", "bold_red")
 			+ colorize(error.get_detail(), "green")

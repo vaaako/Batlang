@@ -14,7 +14,7 @@ struct LexerResult {
 	std::optional<Error> error;
 
 	LexerResult(const std::vector<Token> value) : value(value) {}
-	LexerResult(const Error error) : error(error) {}
+	LexerResult(const Error& error) : error(error) {}
 
 	inline bool has_error() const {
 		return error.has_value();
@@ -31,8 +31,9 @@ struct LexerResult {
 
 class Lexer {
 	public:
-		Lexer(const std::string filename, const std::string text);
+		Lexer(const std::string& filename, const std::string& text);
 		LexerResult make_tokens();
+
 	private:
 		std::string text;
 		Position pos;
@@ -43,7 +44,7 @@ class Lexer {
 		// Go to next character
 		void advance();
 
-		char pop_text() {
+		inline char pop_text() {
 			char c = text.at(0);
 			text.erase(text.begin());
 			return c;

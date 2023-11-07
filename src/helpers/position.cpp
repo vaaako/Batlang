@@ -1,8 +1,6 @@
 #include "../headers/position.hpp"
 
-Position::Position(const size_t index, const size_t line, const size_t col, const std::string filename, const std::string text) : index(index), line(line), col(col), filename(filename), text(text) {
-
-}
+Position::Position(const size_t index, const size_t line, const size_t col, const std::string& filename, const std::string& text) : index(index), line(line), col(col), filename(filename), text(text) {}
 
 void Position::advance(const char cc) {
 	index++;

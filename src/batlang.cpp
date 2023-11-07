@@ -8,7 +8,7 @@
 #include "headers/parser.hpp"
 #include "headers/interpreter.hpp"
 
-void Batlang::run(const std::string filename, const std::string text, const bool debug) {
+void Batlang::run(const std::string& filename, const std::string& text, const bool debug) {
 	if(text.empty()) return;
 
 	// Generate tokens
@@ -33,7 +33,7 @@ void Batlang::run(const std::string filename, const std::string text, const bool
 
 	// Run interpreter
 	Interpreter interpreter = Interpreter();
-	RTResult result = interpreter.visit(ast.get_value());
+	RTResult result = interpreter.visit(*ast.get_value());
 	/**
 	 * Nodes don't need to be a pointer, but is much easir to deal with nullptr than optinal
 	 * - I need to change later
@@ -67,5 +67,5 @@ void Batlang::run(const std::string filename, const std::string text, const bool
 	std::cout << std::endl;
 
 	// Delete unused node
-	delete ast.get_value();
+	// delete ast.get_value();
 }

@@ -5,7 +5,7 @@
 #include <cctype>
 #include <iostream>
 
-Lexer::Lexer(const std::string filename, const std::string text) : text(text), pos(Position(0, 0, 0, filename, text)) {
+Lexer::Lexer(const std::string& filename, const std::string& text) : text(text), pos(Position(0, 0, 0, filename, text)) {
 	if(!text.empty()) cc = pop_text(); // Pop char from text
 }
 

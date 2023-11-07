@@ -3,9 +3,15 @@
 #include <cstddef>
 #include <string>
 
+/**
+ * This class keeps track of a token, when getting a error
+ * is printed the position of the token where the error occured
+ * 
+ * */
+
 class Position {
 	public:
-		Position(const size_t index, const size_t line, const size_t col, const std::string filename, const std::string text);
+		Position(const size_t index, const size_t line, const size_t col, const std::string& filename, const std::string& text);
 		void advance(const char cc);
 
 		inline size_t get_index() const {

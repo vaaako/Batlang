@@ -1,7 +1,7 @@
 #include "../headers/token.hpp"
 
-Token::Token(const TokenType type, const Position pos) : type(type), pos(pos) {}
-Token::Token(const TokenType type, const Position pos, const double value) : type(type), pos(pos), value(value) {}
+Token::Token(const TokenType type, const Position& pos) : type(type), pos(pos) {}
+Token::Token(const TokenType type, const Position& pos, const double value) : type(type), pos(pos), value(value) {}
 
 TokenType Token::from_char(const char c) {
 	auto it = char_type_hash.find(c);

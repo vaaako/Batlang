@@ -18,7 +18,7 @@
 
 class Parser {
 	public:
-		Parser(const std::vector<Token> tokens);
+		Parser(const std::vector<Token>& tokens);
 
 		inline void advance() {
 			if(tokens.size() != 0) cur_token = pop_token();

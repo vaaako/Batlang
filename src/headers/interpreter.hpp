@@ -14,9 +14,9 @@ class Interpreter {
 	public:
 		Interpreter();
 
-		RTResult visit(Node* node);
-		RTResult visit_number(Node* node);
-		RTResult visit_binary(Node* node);
-		RTResult visit_unary(Node* node);
+		RTResult visit(const Node& node);
+		RTResult visit_number(const Node& node);
+		RTResult visit_binary(const Node& node);
+		RTResult visit_unary(const Node& node);
 	private:
 };
