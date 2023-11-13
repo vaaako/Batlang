@@ -43,18 +43,22 @@ class Parser {
 		}
 
 
-		PResult factor();
-		PResult term();
-		PResult expr();
 
 		// Node* bind_op(TokenType type1, TokenType type2, Node* (*func)());
-		PResult bind_op(const TokenType type1, const TokenType type2, const std::function<PResult ()> func);
+		// PResult bind_op(const TokenType type1, const TokenType type2, const std::function<PResult ()> func);
+		PResult bind_op(const TokenType type1, const TokenType type2, const std::function<PResult ()> func, const std::function<PResult ()> func2 = nullptr);
 	private:
 		std::vector<Token> tokens;
 		Token cur_token = pop_token();
 
 		std::optional<Error> error;
 
+		PResult atom();
+		PResult factor();
+
+		PResult power();
+		PResult term();
+		PResult expr();
 
 		// Just a shortcut
 		inline bool has_types(const TokenType to_check, const TokenType type1, const TokenType type2) const {

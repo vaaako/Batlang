@@ -4,36 +4,23 @@
 
 Parser::Parser(const std::vector<Token>& tokens) : tokens(tokens) {}
 
-PResult Parser::factor() {
+/* Privates */
+
+// Power
+PResult Parser::atom() {
 	PResult res = PResult();
 	Token token = cur_token;
 
 	advance();
 	// res.registr(cur_token);
 
-	/**
-	 * I am almost sure there is a best way of doing this withou this IFs and ELSEs, and just dont know how
-	 * */
-	
 	// Number //
 	if(has_types(token.get_type(), TokenType::INT, TokenType::FLOAT)) {
 		res.sucess(new Node(token)); // Sucess
 		return res;
 
-
-	// +X or -X //
-	} else if(has_types(token.get_type(), TokenType::PLUS, TokenType::MINUS)) {
-		// Get unary factor
-		PResult factor = res.registr(this->factor());
-		if(factor.has_error()) return res;
-
-		// Sucess
-		res.sucess(new Node(token, factor.get_value()));
-		return res;
-
-
 	// Parentheses //
-	} else if(token.get_type() == TokenType::LPARENT) {
+	}  else if(token.get_type() == TokenType::LPARENT) {
 		// Get Parentheses expression
 		PResult expr = res.registr(this->expr());
 		if(expr.has_error()) return res;
@@ -56,8 +43,6 @@ PResult Parser::factor() {
 		return res;
 	}
 
-
-
 	// Don't start with a valid token, "Throw" error
 	res.failure(
 		Error(ErrorType::InvalidSyntaxError,
@@ -68,6 +53,32 @@ PResult Parser::factor() {
 	return res;
 }
 
+PResult Parser::factor() {
+	PResult res = PResult();
+	Token token = cur_token;
+	
+	// +X or -X //
+	if(has_types(token.get_type(), TokenType::PLUS, TokenType::MINUS)) {
+		advance();
+		// res.registr(cur_token);
+
+		// Get unary factor
+		PResult factor = res.registr(this->factor());
+		if(factor.has_error()) return res;
+
+		// Sucess
+		res.sucess(new Node(token, factor.get_value()));
+		return res;
+	}
+
+	// Check for power
+	return power(); // This is necessayr because POWER has more priority than MUL and DIV
+}
+
+
+PResult Parser::power() {
+	return bind_op(TokenType::POW, TokenType::UNKNOWN, std::bind(&Parser::atom, this), std::bind(&Parser::factor, this)); // Calc atom and factor
+}
 
 // BinOpNode
 PResult Parser::term() {
@@ -79,7 +90,7 @@ PResult Parser::expr() {
 	return bind_op(TokenType::PLUS, TokenType::MINUS, std::bind(&Parser::term, this));
 }
 
-PResult Parser::bind_op(const TokenType type1, const TokenType type2, const std::function<PResult ()> func) {
+PResult Parser::bind_op(const TokenType type1, const TokenType type2, const std::function<PResult ()> func, const std::function<PResult ()> func2) {
 	PResult res = PResult();
 
 	PResult left = res.registr(func()); // First node
@@ -91,7 +102,7 @@ PResult Parser::bind_op(const TokenType type1, const TokenType type2, const std:
 		advance(); // Advance to get "right" token
 		// res.registr(cur_token);
 		
-		PResult right = res.registr(func());
+		PResult right = res.registr((func2 == nullptr) ? func() : func2()); // Use "func" if "func2" is nullptr
 		if(res.has_error()) return res; // Check if previous function had a error and return early
 
 		node = new Node(opToken, node, right.get_value());
@@ -103,14 +114,12 @@ PResult Parser::bind_op(const TokenType type1, const TokenType type2, const std:
 }
 
 
-/* Privates */
-
-
-
 /*
 expr   : term ((PLUS|MINUS) term)*
 term   : factor ((MUL|DIV) factor)*
-factor : INT|FLOAT
-	   : (PLUS|MINUS) factor
+factor : (PLUS|MINUS) factor
+	   : power
+power  : atom (POW factor)*
+atom   : INT|FLOAT
 	   : LPARENT expr RPARENT
 */

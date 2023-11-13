@@ -19,6 +19,7 @@ enum class TokenType {
 	MINUS,
 	MUL,
 	DIV,
+	POW,
 	LPARENT,
 	RPARENT,
 	TEOF // End of file (TEOF because EOF is a C++ macro)
@@ -30,6 +31,7 @@ const std::unordered_map<char, TokenType> char_type_hash = {
 	{ '-', TokenType::MINUS },
 	{ '*', TokenType::MUL },
 	{ '/', TokenType::DIV },
+	{ '^', TokenType::POW },
 	{ '(', TokenType::LPARENT },
 	{ ')', TokenType::RPARENT }
 
@@ -106,6 +108,7 @@ class Token {
 			{ TokenType::MINUS,   "MINUS" },
 			{ TokenType::MUL,     "MUL" },
 			{ TokenType::DIV,     "DIV" },
+			{ TokenType::POW,     "POW" },
 			{ TokenType::LPARENT, "LPARENT" },
 			{ TokenType::RPARENT, "RPARENT" },
 			{ TokenType::TEOF,    "EOF" }

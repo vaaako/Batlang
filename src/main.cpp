@@ -10,20 +10,22 @@
 
 int main() {
 	std::cout << "Batlang Version 0.1" << std::endl;
-	std::cout << "Press Ctrl + C to exit" << std::endl;
+	std::cout << "Press Ctrl + C or type \"exit\" to exit" << std::endl;
 
 
-	char* input;
+	std::string input;
 	while(true) {
 		input = readline("Batlang> ");
 	
 		// Add input to history
-		add_history(input);
+		add_history(input.c_str());
+
+		if(input.length() > 0 && input == "exit") break;
 
 		// Run (duurh)
 		Batlang::run("<stdin>", std::string(input), true);
 		
 		// Free input memory
-		delete[] input;
+		// delete[] input;
 	}
 }
