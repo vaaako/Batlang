@@ -27,6 +27,12 @@ LexerResult Lexer::make_tokens() {
 			continue;
 		}
 
+		if(cc == '\n') {
+			// Make something on jumping line
+			advance();
+			continue;
+		}
+
 		if(std::isdigit(cc)) {
 			Token digit = make_num();
 			tokens.push_back(digit);

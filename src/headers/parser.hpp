@@ -32,7 +32,7 @@ class Parser {
 				// Register error
 				res.failure(
 					Error(ErrorType::InvalidSyntaxError,
-						  "Expected some operator",
+						  "Expected some operator, but got '" + cur_token.value_as_string() + "'",
 						  cur_token.get_pos()
 						)
 					);

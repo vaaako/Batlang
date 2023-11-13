@@ -13,6 +13,7 @@
 -- Actual TODO --
 
 - Better error messages
+- When jumping line make something to interpreter each line instead of a "single big line"
 - Replace EvalError
 	+ To fix this I have to think in another way to declare RTResult
 	+ Fix circular import

@@ -9,6 +9,7 @@ void Position::advance(const char cc) {
 	// Next line
 	if(cc == '\n') {
 		line++;
+		index = 0; // Reset index on changing line
 		col = 0;
 	}
 }
