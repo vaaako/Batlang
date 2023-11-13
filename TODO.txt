@@ -4,12 +4,20 @@
 "=>" - Solution to the problem above
 ```
 
+-- NOTES --
+- I think I will need to re-code all the logic to avoid using "optional"
+	+ This happened because I usually uses null (because is easier), but C++ don't like null
+	+ It won't be that complicated, but it will take time
+	+ I think I'm going to do this after v1.0
+
+-- Actual TODO --
+
 - Better error messages
 - Replace EvalError
 	+ To fix this I have to think in another way to declare RTResult
+	+ Fix circular import
 - Replace LexerError
 	+ I don't remember why I didn't use BasicResult
-
 
 
 X Make members const

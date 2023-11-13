@@ -130,5 +130,6 @@ Inspired by [David Callanan](https://github.com/davidcallanan) and [Matthew Oros
 
 
 ---
->I'm still learning about `Interpreters` and `C++`, so tell me if I do some mistake
+>I'm still learning about `Interpreters` and `C++`, so tell me if I did some mistake
+>If you want to see my notes, see `TODO.txt`
 
