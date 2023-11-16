@@ -5,6 +5,8 @@
 #include "error.hpp"
 #include "position.hpp"
 
+#include <array>
+#include <cctype>
 #include <optional>
 #include <string>
 #include <vector>
@@ -38,16 +40,28 @@ class Lexer {
 		std::string text;
 		Position pos;
 		char cc = -1; // Current character
+
+		const std::array<std::string, 2> keywords = {
+			"let", "//"
+		};
+
+
 		
+		bool keywordExists(const std::string& target) const;
+
+		Token make_identifier();
 		Token make_num();
 
 		// Go to next character
 		void advance();
+
+		inline bool is_identifier(const char cc) {
+			return std::isalnum(cc) || cc == '_' || cc == '/';
+		}
 
 		inline char pop_text() {
 			char c = text.at(0);
 			text.erase(text.begin());
 			return c;
 		}
-
 };

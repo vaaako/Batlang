@@ -19,6 +19,12 @@ PResult Parser::atom() {
 		res.sucess(new Node(token)); // Sucess
 		return res;
 
+	// Variable //
+	// } else if(token.get_type() == TokenType::IDENTIFIER) {
+	// 	// res.sucess(new Node(token, nullptr, nullptr, NodeType::ACESS)); // Var Acess
+	// 	res.sucess(new Node(token)); // Var Acess
+	// 	return res;
+
 	// Parentheses //
 	}  else if(token.get_type() == TokenType::LPARENT) {
 		// Get Parentheses expression
@@ -72,7 +78,7 @@ PResult Parser::factor() {
 	}
 
 	// Check for power
-	return power(); // This is necessayr because POWER has more priority than MUL and DIV
+	return power(); // This is necessary because POWER has more priority than MUL and DIV
 }
 
 
@@ -87,6 +93,48 @@ PResult Parser::term() {
 
 // BinOpNode
 PResult Parser::expr() {
+	PResult res = PResult();
+
+	// If is a var declaration, get KEYWORD, IDENTIFIER, EQ and expr
+	if(cur_token.get_type() == TokenType::KEYWORD && cur_token.get_value() == "let") {
+		advance();
+		// res.registr();
+
+		// Check for var name
+		if(cur_token.get_type() != TokenType::IDENTIFIER) {
+			res.failure(Error(ErrorType::InvalidSyntaxError,
+			  		  "Expected variable name, but got '" + cur_token.value_as_string() + "'",
+			  		  cur_token.get_pos())
+					);
+			return res;
+		}
+
+		Token var_name = cur_token;
+
+		advance();
+		// res.registr();
+
+		// Check for '='
+		if(cur_token.get_type() != TokenType::EQUALS) {
+			res.failure(Error(ErrorType::InvalidSyntaxError,
+			  		  "Expected '=', but got '" + cur_token.value_as_string() + "'",
+			  		  cur_token.get_pos())
+					);
+			return res;
+		}
+
+		advance();
+		// res.registr();
+
+		PResult expr = res.registr(this->expr());
+		if(expr.has_error()) return res;
+
+		// return res.sucess(new Node(var_name, expr));
+		res.sucess(new Node(var_name, expr.get_value(), nullptr, NodeType::VARIABLE));
+		return res;
+	}
+
+
 	return bind_op(TokenType::PLUS, TokenType::MINUS, std::bind(&Parser::term, this));
 }
 
@@ -115,11 +163,14 @@ PResult Parser::bind_op(const TokenType type1, const TokenType type2, const std:
 
 
 /*
-expr   : term ((PLUS|MINUS) term)*
+lest -> highest priority
+
+expr   : KEYWORD:VAR IDENTIFIER EQ expr
+	   : term ((PLUS|MINUS) term)*
 term   : factor ((MUL|DIV) factor)*
 factor : (PLUS|MINUS) factor
 	   : power
 power  : atom (POW factor)*
-atom   : INT|FLOAT
+atom   : INT|FLOAT|IDENTIFIER
 	   : LPARENT expr RPARENT
 */

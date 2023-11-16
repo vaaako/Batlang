@@ -12,7 +12,6 @@ Lexer::Lexer(const std::string& filename, const std::string& text) : text(text),
 void Lexer::advance() {
 	pos.advance(cc);
 	cc = (text.length() != 0) ? pop_text() : -1;
-	// std::cout << "Advanced to position " << pos.get_index() << " of " << text.length() << std::endl;
 }
 
 
@@ -22,22 +21,27 @@ LexerResult Lexer::make_tokens() {
 	// while(pos.get_index() < text.length()) {
 	// While text still have char
 	while(cc != -1) { 
+		// Check character //
 		if(cc == '\t' || cc == ' ') {
 			advance();
 			continue;
-		}
-
-		if(cc == '\n') {
+		} else if (cc == '\n') {
 			// Make something on jumping line
 			advance();
 			continue;
 		}
 
+
+		// Identify //
 		if(std::isdigit(cc)) {
-			Token digit = make_num();
-			tokens.push_back(digit);
-			continue; // Continue with last peeked char in make_num
-		} else {
+			tokens.push_back(make_num());
+			// continue; // Continue with last peeked char in make_num
+		
+		} else if(is_identifier(cc)) {
+			tokens.push_back(make_identifier());
+
+		// Another Character
+		} else { 
 			TokenType tokenType = Token::from_char(cc);
 
 			if(tokenType == TokenType::UNKNOWN)
@@ -56,11 +60,28 @@ LexerResult Lexer::make_tokens() {
 	return { tokens };
 }
 
+Token Lexer::make_identifier() {
+	std::string id_str = "";
+	// Position pos_start = pos;
+
+	while(pos.get_index() != -1) {
+		if(is_identifier(cc)) {
+			id_str += cc;
+		} else {
+			break;
+		}
+
+		advance();
+	}
+
+	TokenType tok_type = (keywordExists(id_str)) ? TokenType::KEYWORD : TokenType::IDENTIFIER;
+	return Token(tok_type, pos, id_str);
+}
 
 Token Lexer::make_num() {
 	std::string num_str;
 	int dot_count = 0;
-	// pos_start = pos.copy();
+	// Position pos_start = pos;
 
 	// While not the end
 	while(pos.get_index() != -1) {
@@ -70,6 +91,9 @@ Token Lexer::make_num() {
 			if(dot_count == 1) break; // Can't have more than one dot
 			dot_count++;
 			num_str += '.';
+		} else if(cc == '_') {
+			advance();
+			continue;
 		} else { // Not a digit, break loop
 			break;
 		}
@@ -88,4 +112,11 @@ Token Lexer::make_num() {
 	 *           - On changing "int" (Int type) it is only needed to change at "batring", because Integer is only really used on printing (for now)
 	 * */
 
+}
+
+
+bool Lexer::keywordExists(const std::string& target) const {
+	for(const std::string& keyword : keywords)
+		if (keyword == target) return true; 
+	return false;
 }

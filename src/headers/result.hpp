@@ -10,7 +10,7 @@
 /**
  * This class is used to handle errors in Parser and Interpreter
  * In registr (register is a C++ keyword, so i can't use this name)
- * Is registered a result (or answer) of a action, if the answer had a error, this error is also registered (failure)
+ * is registered a result (or answer) of a action, if the answer had a error, this error is also registered (failure)
  * 
  * Then in the code is check if the Result has a error, if has, cancel and show this error
  * But, if no errors occured, return result with the value (sucess)

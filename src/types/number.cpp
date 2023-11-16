@@ -33,7 +33,7 @@ EvalResult Number::eval(const double value, const TokenType eval_type, const Pos
 			result = std::pow(this->value, value);
 			break;
 		default:
-			throw std::runtime_error("Invalid operator at Number::eval");
+			throw std::runtime_error("<number.cpp> Invalid operator");
 	}
 
 

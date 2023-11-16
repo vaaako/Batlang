@@ -3,6 +3,7 @@
 #include "position.hpp"
 #include "batring.hpp"
 
+#include <cctype>
 #include <optional>
 #include <string>
 #include <unordered_map>
@@ -12,16 +13,25 @@
 enum class TokenType {
 	UNKNOWN,
 	// UNDEFINED,
+
+	// Number values
 	INT,
 	FLOAT,
 
+	// String Values
+	IDENTIFIER,
+	KEYWORD,
+
+	// No values (Char)
 	PLUS,
 	MINUS,
 	MUL,
 	DIV,
 	POW,
+	EQUALS,
 	LPARENT,
 	RPARENT,
+
 	TEOF // End of file (TEOF because EOF is a C++ macro)
 };
 
@@ -32,15 +42,18 @@ const std::unordered_map<char, TokenType> char_type_hash = {
 	{ '*', TokenType::MUL },
 	{ '/', TokenType::DIV },
 	{ '^', TokenType::POW },
+	{ '=', TokenType::EQUALS },
 	{ '(', TokenType::LPARENT },
 	{ ')', TokenType::RPARENT }
 
 };
 
+// template <typename T, typename = std::enable_if_t<std::is_enum_v<T> && std::is_same_v<T, TokenType>>>
 class Token {
 	public:
 		Token(const TokenType type, const Position& pos);
 		Token(const TokenType type, const Position& pos, const double value);
+		Token(const TokenType type, const Position& pos, const std::string value);
 		static TokenType from_char(const char c);
 
 
@@ -58,8 +71,13 @@ class Token {
 		}
 
 		// Get value from "Value"
-		inline double get_value() const {
-			return value.value();
+		inline std::string get_value() const {
+			// return (value.has_value()) ? value.value() : value_as_string();
+			return value_as_string();
+		}
+
+		inline double get_value_as_number() const {
+			return std::stod(value.value());
 		}
 	
 		inline bool has_value() const {
@@ -68,21 +86,22 @@ class Token {
 
 
 		// Return type (e.g. "+" if not a number) or value (e.g. "41" if a number) as string
+		// This function is >debug only<
 		std::string value_as_string() const {
-			// Is a number
-			if(value.has_value()) return Batring::num(value.value());
-			// Else not a number -> below
+			if(value.has_value())
+				// Has value and is a number else return value
+				return (type == TokenType::INT || type == TokenType::FLOAT) ? Batring::num(value.value()) : value.value();
+			// Else not a number = below
 
 			// This is the only Token (besides number and stuff) that is not a char
 			if(type == TokenType::TEOF) return "EOF";
 
-			// Revere map
+			// Reverse map
 			std::unordered_map<TokenType, char> reverse_hash;
 			for (const auto& pair : char_type_hash)
 				reverse_hash[pair.second] = pair.first;
 
-			// Get char from reversed hash
-			// std::cout << "Type: " << std::to_string(type) << std::endl;
+			// Get char from reversed hash, if not found, just return Token's value
 			return std::string(1, reverse_hash.at(type));
 		}
 
@@ -98,19 +117,22 @@ class Token {
 		 * 
 		 * */
 
-		std::optional<double> value;
+		std::optional<std::string> value;
 		// std::optional<Position> pos_end;
 
 		std::unordered_map<TokenType, std::string> type_hash = {
-			{ TokenType::INT,     "INT" },
-			{ TokenType::FLOAT,   "FLOAT" },
-			{ TokenType::PLUS,    "PLUS" },
-			{ TokenType::MINUS,   "MINUS" },
-			{ TokenType::MUL,     "MUL" },
-			{ TokenType::DIV,     "DIV" },
-			{ TokenType::POW,     "POW" },
-			{ TokenType::LPARENT, "LPARENT" },
-			{ TokenType::RPARENT, "RPARENT" },
-			{ TokenType::TEOF,    "EOF" }
+			{ TokenType::INT,        "INT" },
+			{ TokenType::FLOAT,      "FLOAT" },
+			{ TokenType::IDENTIFIER, "IDENTIFIER" },
+			{ TokenType::KEYWORD,    "KEYWORD" },
+			{ TokenType::PLUS,       "PLUS" },
+			{ TokenType::MINUS,      "MINUS" },
+			{ TokenType::MUL,        "MUL" },
+			{ TokenType::DIV,        "DIV" },
+			{ TokenType::POW,        "POW" },
+			{ TokenType::EQUALS,     "EQUALS" },
+			{ TokenType::LPARENT,    "LPARENT" },
+			{ TokenType::RPARENT,    "RPARENT" },
+			{ TokenType::TEOF,       "EOF" }
 		};
 };

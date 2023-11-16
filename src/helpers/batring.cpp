@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <iostream>
+#include <string>
 
 /* Helpers start */
 std::unordered_map<std::string, std::string> color_hash = {
@@ -41,6 +42,23 @@ std::string generate_traceback(Context context) {
 	if(context.has_parent()) result += generate_traceback(context.get_parent());
 	return result;
 }
+
+
+bool isStringNumber(const std::string& str)  {
+	try {
+		size_t pos;
+		double number = std::stod(str, &pos);
+		
+		// Check if there are no extra characters in the string
+		return pos == str.length();
+	} catch (const std::invalid_argument& e) {
+		// If the conversion fails
+		return false;
+	} catch (const std::out_of_range& e) {
+		// If the conversion result is out of range
+		return false;
+	}
+}
 /* Helpers end */
 
 
@@ -54,8 +72,18 @@ std::string Batring::num(const double value) {
 	return fix_float(value);
 }
 
+std::string Batring::num(const std::string value) {
+	// Is int, print as Integer (1.0 => 1)
+	double nvalue = std::stod(value);
+
+	if(nvalue == (int)(nvalue)) return std::to_string((int)nvalue);
+		
+	// Fix decimal places
+	return fix_float(nvalue);
+}
+
 void Batring::result(const std::string value) {
-	std::cout << colorize(value, "yellow");
+	std::cout << ((isStringNumber(value)) ?  colorize(value, "yellow") : colorize(value, "green"));
 }
 
 

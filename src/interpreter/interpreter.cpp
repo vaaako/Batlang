@@ -27,7 +27,7 @@ RTResult Interpreter::visit(const Node& node) {
 		case NodeType::UNARY:
 			return visit_unary(node);
 		default:
-			throw std::runtime_error("No visit method found for " + Node::get_type_as_string(node.get_type()));
+			throw std::runtime_error("<interpreter.cpp> No visit method found for " + Node::get_type_as_string(node.get_type()));
 			break;
 	}
 }
@@ -38,7 +38,7 @@ RTResult Interpreter::visit_number(const Node& node) {
 
 	// Make number and set context
 	res.sucess(
-		Number(node.get_token().get_value(), context)
+		Number(node.get_token().get_value_as_number(), context)
 	);
 	return res;
 }

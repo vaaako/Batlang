@@ -15,7 +15,8 @@ enum class NodeType {
 	UNKNOWN,
 	NUMBER,
 	BINARY,
-	UNARY
+	UNARY,
+	VARIABLE
 };
 
 
@@ -29,11 +30,7 @@ enum class NodeType {
 
 class Node {
 	public:	
-		// Node(Token token, Node* left=nullptr, Node* right=nullptr);
-		Node(const Token token);
-		Node(const Token token, Node* left);
-		Node(const Token token, Node* left, Node* right);
-
+		Node(const Token token, Node* left=nullptr, Node* right=nullptr, const NodeType type=NodeType::UNKNOWN);
 		static std::string get_type_as_string(const NodeType type);
 
 	

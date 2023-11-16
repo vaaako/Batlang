@@ -14,6 +14,7 @@ namespace Batring {
 	std::string colorize(const std::string& text, const std::string color);
 
 	std::string num(const double value);
+	std::string num(const std::string value);
 
 	void result(const std::string value);
 	void error(const Error& error);

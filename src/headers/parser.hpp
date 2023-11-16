@@ -14,6 +14,9 @@
  * It works with the "result" class to handle erros
  * 
  * With the tokens from the "lexer" it checks if it's "in order"
+ * 
+ * REMEMBER: On setting a new Node, remember to check if node is NUMBER, UNARY or BINARY if none of that, you need to set manually,
+ * example: new Node(token, left_node, nullptr, NodeType::VARIABLE)
  * */
 
 class Parser {
