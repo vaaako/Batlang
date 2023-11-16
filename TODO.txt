@@ -11,7 +11,7 @@
 	+ I think I'm going to do this after v1.0
 
 -- Actual TODO --
-
+- Comment
 - Better error messages
 - When jumping line make something to interpreter each line instead of a "single big line"
 - Replace EvalError
@@ -20,7 +20,8 @@
 - Replace LexerError
 	+ I don't remember why I didn't use BasicResult
 
-
+//- Add generics to Token = Token<TokenType::INT>(123, pos);
+	+ Not necessary yet
 X Make members const
 	=> Don't need to (for now)
 X Nodes don't need to be pointers (is just easier)
