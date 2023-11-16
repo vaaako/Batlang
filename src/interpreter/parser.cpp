@@ -62,7 +62,7 @@ PResult Parser::atom() {
 PResult Parser::factor() {
 	PResult res = PResult();
 	Token token = cur_token;
-	
+
 	// +X or -X //
 	if(has_types(token.get_type(), TokenType::PLUS, TokenType::MINUS)) {
 		advance();

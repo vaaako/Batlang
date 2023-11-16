@@ -53,7 +53,10 @@ class Lexer {
 		Token make_num();
 
 		// Go to next character
-		void advance();
+		inline void advance() {
+			pos.advance(cc);
+			cc = (text.length() != 0) ? pop_text() : -1;
+		}
 
 		inline bool is_identifier(const char cc) {
 			return std::isalnum(cc) || cc == '_' || cc == '/';

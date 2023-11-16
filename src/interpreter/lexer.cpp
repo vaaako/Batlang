@@ -2,25 +2,15 @@
 #include "../headers/error.hpp"
 #include "../headers/token.hpp"
 
-#include <cctype>
-#include <iostream>
-
 Lexer::Lexer(const std::string& filename, const std::string& text) : text(text), pos(Position(0, 0, 0, filename, text)) {
 	if(!text.empty()) cc = pop_text(); // Pop char from text
 }
 
-void Lexer::advance() {
-	pos.advance(cc);
-	cc = (text.length() != 0) ? pop_text() : -1;
-}
-
-
 LexerResult Lexer::make_tokens() {
 	std::vector<Token> tokens;
 
-	// while(pos.get_index() < text.length()) {
 	// While text still have char
-	while(cc != -1) { 
+	while(cc != -1) {
 		// Check character //
 		if(cc == '\t' || cc == ' ') {
 			advance();
@@ -35,13 +25,15 @@ LexerResult Lexer::make_tokens() {
 		// Identify //
 		if(std::isdigit(cc)) {
 			tokens.push_back(make_num());
-			// continue; // Continue with last peeked char in make_num
+			continue; // Continue with last peeked char in make_num
+			// This is important because if end with ')' it will advance to next character (the end of this loop) and it won't be count
 		
 		} else if(is_identifier(cc)) {
 			tokens.push_back(make_identifier());
+			continue; // Same as above
 
 		// Another Character
-		} else { 
+		} else {
 			TokenType tokenType = Token::from_char(cc);
 
 			if(tokenType == TokenType::UNKNOWN)
@@ -64,12 +56,9 @@ Token Lexer::make_identifier() {
 	std::string id_str = "";
 	// Position pos_start = pos;
 
-	while(pos.get_index() != -1) {
-		if(is_identifier(cc)) {
-			id_str += cc;
-		} else {
-			break;
-		}
+	while(cc != -1) {
+		if(is_identifier(cc)) id_str += cc;
+		else break;
 
 		advance();
 	}
@@ -84,7 +73,7 @@ Token Lexer::make_num() {
 	// Position pos_start = pos;
 
 	// While not the end
-	while(pos.get_index() != -1) {
+	while(cc != -1) {
 		if(std::isdigit(cc)) {
 			num_str += cc;
 		} else if(cc == '.') {
