@@ -11,7 +11,11 @@
 	+ I think I'm going to do this after v1.0
 
 -- Actual TODO --
-- Comment
+- Instead of "Number" class, make a Integer and Float derived from "Number"
+- Change how token stores the value
+	+ Store as string by default
+	+ On "get_value" always return string
+	+ If is a number the conversion has to be done by the caller
 - Better error messages
 - When jumping line make something to interpreter each line instead of a "single big line"
 - Replace EvalError
