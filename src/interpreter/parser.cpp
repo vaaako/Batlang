@@ -26,13 +26,13 @@ PResult Parser::atom() {
 	// 	return res;
 
 	// Parentheses //
-	}  else if(token.get_type() == TokenType::LPARENT) {
+	}  else if(token.get_type() == TokenType::LPAREN) {
 		// Get Parentheses expression
 		PResult expr = res.registr(this->expr());
 		if(expr.has_error()) return res;
 
 		// Check if closed
-		if(cur_token.get_type() == TokenType::RPARENT) {
+		if(cur_token.get_type() == TokenType::RPAREN) {
 			advance();
 			// res.registr(cur_token);
 
@@ -172,5 +172,5 @@ factor : (PLUS|MINUS) factor
 	   : power
 power  : atom (POW factor)*
 atom   : INT|FLOAT|IDENTIFIER
-	   : LPARENT expr RPARENT
+	   : LPAREN expr RPAREN
 */

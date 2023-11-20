@@ -9,7 +9,6 @@ Number::Number(const double value, const Position& pos) : value(value), pos(pos)
 Number::Number(const double value, const Context& context) : value(value), context(context) {}
 Number::Number(const double value, const Position& pos, const Context& context) : value(value), pos(pos), context(context) {}
 
-
 EvalResult Number::eval(const double value, const TokenType eval_type, const Position& pos) {
 	double result;
 

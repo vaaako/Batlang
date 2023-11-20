@@ -1,5 +1,6 @@
 #pragma once
 
+#include "batype.hpp"
 #include "context.hpp"
 #include "position.hpp"
 #include "token.hpp"
@@ -9,7 +10,11 @@
 /**
  * This class creates a Number type
  *
- * Value is represented as double, but can have a type of INT or FLOAT, storing in double is just a simpler way of storing the value 
+ * Value is represented as double, but can have a type of INT or FLOAT,
+ * storing in double is just a simpler way of storing the value 
+ * 
+ * This class is derived from "Batype" wich represents any type of "Batlang"
+ * 
  * */
 
 
@@ -34,12 +39,20 @@ struct EvalResult {
 	}
 };
 
-class Number {
+// class Integer : public Batype<int> {
+// 	public:
+// 		Integer(const int value) : Batype<int>(value) {};
+// };
+
+class Number : public Batype<double> {
 	public:
-		Number(const double value);
-		Number(const double value, const Position& pos);
-		Number(const double value, const Context& context);
-		Number(const double value, const Position& pos, const Context& context);
+		// Number(const double value) : Batype<double>(value) {};
+		// Number(const double value, const Position& pos) : Batype<double>(value, pos) {};
+		// Number(const double value, const Context& context) : Batype<double>(value, context) {};
+		// Number(const double value, const Position& pos, const Context& context) : Batype<double>(value, pos, context) {};
+
+		Number(const double value, const std::optional<Position>& pos, const std::optional<Context>& context) : Batype<double>(value, pos, context) {};
+
 
 		EvalResult eval(const double value, const TokenType eval_type, const Position& pos);
 
@@ -51,7 +64,6 @@ class Number {
 			return pos.value();
 		}
 
-
 		inline void set_pos(const Position pos) {
 			this->pos = pos;
 		}	
@@ -59,7 +71,6 @@ class Number {
 		inline void set_context(const Context& context) {
 			this->context = context;
 		}
-
 
 		inline std::string as_string() const {
 			return Batring::num(value);
