@@ -19,6 +19,7 @@ class Interpreter {
 		RTResult visit_number(const Node& node);
 		RTResult visit_binary(const Node& node);
 		RTResult visit_unary(const Node& node);
+		RTResult visit_variable(const Node& node);
 	private:
 		Context& context;
 };

@@ -1,10 +1,12 @@
 #include "../headers/interpreter.hpp"
 #include "../headers/token.hpp"
 #include "../headers/result.hpp"
+#include "../headers/environment.hpp"
 
 #include <algorithm>
 #include <iostream>
 #include <iterator>
+#include <optional>
 #include <stdexcept>
 #include <string>
 
@@ -26,6 +28,8 @@ RTResult Interpreter::visit(const Node& node) {
 			return visit_binary(node);
 		case NodeType::UNARY:
 			return visit_unary(node);
+		case NodeType::VARIABLE:
+			return visit_variable(node);
 		default:
 			throw std::runtime_error("<interpreter.cpp> No visit method found for " + Node::get_type_as_string(node.get_type()));
 			break;
@@ -38,7 +42,7 @@ RTResult Interpreter::visit_number(const Node& node) {
 
 	// Make number and set context
 	res.sucess(
-		Number(node.get_token().get_value_as_number(), context)
+		Number(node.get_token().get_value_as_number(), std::nullopt, context)
 	);
 	return res;
 }
@@ -97,4 +101,9 @@ RTResult Interpreter::visit_unary(const Node& node) {
 	)); // Change initial value
 
 	return res;
+}
+
+
+RTResult Interpreter::visit_variable(const Node& node) {
+
 }
