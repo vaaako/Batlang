@@ -29,8 +29,8 @@ enum class TokenType {
 	DIV,
 	POW,
 	EQUALS,
-	LPAREN,
-	RPAREN,
+	LPARENT,
+	RPARENT,
 
 	TEOF // End of file (TEOF because EOF is a C++ macro)
 };
@@ -43,20 +43,20 @@ const std::unordered_map<char, TokenType> char_type_hash = {
 	{ '/', TokenType::DIV },
 	{ '^', TokenType::POW },
 	{ '=', TokenType::EQUALS },
-	{ '(', TokenType::LPAREN },
-	{ ')', TokenType::RPAREN }
+	{ '(', TokenType::LPARENT },
+	{ ')', TokenType::RPARENT }
 
 };
 
 // template <typename T, typename = std::enable_if_t<std::is_enum_v<T> && std::is_same_v<T, TokenType>>>
-
-// Change this later
 class Token {
 	public:
 		Token(const TokenType type, const Position& pos);
 		Token(const TokenType type, const Position& pos, const double value);
 		Token(const TokenType type, const Position& pos, const std::string value);
 		static TokenType from_char(const char c);
+
+
 
 		inline std::string as_string() const {
 			return type_hash.at(type) + ":" + value_as_string();
@@ -131,8 +131,8 @@ class Token {
 			{ TokenType::DIV,        "DIV" },
 			{ TokenType::POW,        "POW" },
 			{ TokenType::EQUALS,     "EQUALS" },
-			{ TokenType::LPAREN,    "LPAREN" },
-			{ TokenType::RPAREN,    "RPAREN" },
+			{ TokenType::LPARENT,    "LPARENT" },
+			{ TokenType::RPARENT,    "RPARENT" },
 			{ TokenType::TEOF,       "EOF" }
 		};
 };
