@@ -2,23 +2,26 @@
 
 #include "context.hpp"
 #include "position.hpp"
+#include <optional>
 
-template <typename T>
+/**
+ * "Batype" is any Batlang type
+ * 
+ * BaseType is used just to make a type, Batype is used as a
+ * "reference" (not a C/C++ way) to this type, to be easier to use
+ * */
+
+// Use it
 class Batype {
 	public:
-		// Batype<T>(const T value) : value(value) {};
-		// Batype<T>(const T value, const Position& pos) : value(value), pos(pos) {};
-		// Batype<T>(const T value, const Context& context) : value(value), context(context) {};
-		// Batype<T>(const T value, const Position& pos, const Context& context) : value(value), pos(pos), context(context) {};
-
-		Batype<T>(const T value, const std::optional<Position>& pos, const std::optional<Context>& context) : value(value), pos(pos), context(context) {};
-
-		inline T get_value() const {
-			return value;
-		}
+		Batype(const std::optional<Position>& pos = std::nullopt, const std::optional<Context>& context = std::nullopt);
 
 		inline Position get_pos() const {
 			return pos.value();
+		}
+
+		inline Context get_context() const {
+			return context.value();
 		}
 
 		inline void set_pos(const Position pos) {
@@ -29,11 +32,24 @@ class Batype {
 			this->context = context;
 		}
 
-		// virtual inline std::string as_string() = 0;
-
-		virtual ~Batype() = default;
+		// virtual std::string as_string() = 0;
 	private:
-		T value;
 		std::optional<Position> pos;
 		std::optional<Context> context;
+};
+
+// Value only (This is just to set the value, it may have a better way to do it)
+template <typename T>
+class BaseType : public Batype {
+	public:
+		BaseType<T>(const T value, const std::optional<Position>& pos, const std::optional<Context>& context);
+
+		inline T get_value() const {
+			return value;
+		}
+
+		virtual ~BaseType() = default;
+		virtual std::string as_string() const = 0;
+	private:
+		T value;
 };

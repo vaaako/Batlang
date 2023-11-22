@@ -42,7 +42,7 @@ RTResult Interpreter::visit_number(const Node& node) {
 
 	// Make number and set context
 	res.sucess(
-		Number(node.get_token().get_value_as_number(), std::nullopt, context)
+		Number::make_number(node.get_token().get_value_as_number(), std::nullopt, context)
 	);
 	return res;
 }
@@ -56,7 +56,7 @@ RTResult Interpreter::visit_binary(const Node& node) {
 	Number right = visit(node.get_right()).get_value();
 
 	// Eval
-	EvalResult result = left.eval(right.get_value(), node.get_token().get_type(), node.get_pos()); // Value, type of evaluation (add, minus etc)
+	BasicResult<Number> result = left.eval(right.get_value(), node.get_token().get_type(), node.get_pos()); // Value, type of evaluation (add, minus etc)
 	
 	// Check for error
 	if(result.has_error()) {
@@ -82,7 +82,7 @@ RTResult Interpreter::visit_unary(const Node& node) {
 	if(res.has_error()) res.failure(number.get_error()); // Check error from visit
 
 	// Eval
-	EvalResult result = 0; // I'm just using EvalResult and not RTResult to avoid circular import
+	BasicResult<Number> result;
 	if(node.get_token().get_type() == TokenType::MINUS)
 		// -1 because -> --X = +X
 		result = number.get_value().eval(-1, TokenType::MUL, node.get_pos());

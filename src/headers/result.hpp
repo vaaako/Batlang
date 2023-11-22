@@ -1,8 +1,8 @@
 #pragma once
 
+#include "batype.hpp"
 #include "error.hpp"
 #include "node.hpp"
-#include "number.hpp"
 #include "token.hpp"
 
 #include <optional>
@@ -19,9 +19,8 @@
 template <typename T>
 class BasicResult {
 	public:
-		BasicResult(const T value, const Error& error) : value(value), error(error) {} // In case default "value" can't be 0
-		BasicResult(const T value) : value(value) {}
-		BasicResult(const Error& error) : value(0), error(error) {}
+		BasicResult(const T value, const std::optional<Error>& error = std::nullopt) : value(value), error(error) {} // In case default "value" can't be 0
+		// BasicResult(const Error& error) : value(0), error(error) {}
 
 		inline bool has_error() const {
 			return error.has_value();
@@ -47,7 +46,7 @@ class Result {
 		Result(T value) : value(value) {}
 
 		// Register
-		Result<T> registr(Result<T> res);
+		Result<T> registr(Result<T> res); // Just default, need to change
 	
 		// Register
 		void sucess(T value) {
@@ -88,7 +87,8 @@ class PResult : public Result<Node*> {
 };
 
 // Runtime Result (interpreter)
-class RTResult : public Result<Number> {
+template <typename T>
+class RTResult : public Result<Batype*> {
 	public:
 		RTResult();
 

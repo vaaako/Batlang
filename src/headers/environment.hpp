@@ -11,8 +11,7 @@ class Environment {
 	public:
 		Environment();
 
-		template <template <typename> class Batype, typename T>
-		inline void addVariable(const std::string& sym, const Batype<T>& val) {
+		inline void addVariable(const std::string& sym, const Batype& val) {
 			// symbols.push_back(sym);
 			// values.push_back(val);
 
@@ -20,13 +19,11 @@ class Environment {
 		}
 
 		// Obtém o valor associado a um símbolo
-		template <template <typename> class Batype, typename T>
-		Batype<T> getVariable(const std::string& sym) const;
+		// template <template <typename> class Batype, typename T>
+		Batype getVariable(const std::string& sym) const;
 	private:
 		// std::vector<std::string> symbols; // Store names
 		// std::vector<Variable> values; // Values
 
-		// template <template <typename> class Batype, typename T>
-		// std::unordered_map<std::string, Batype> symbols = {};
-		std::unordered_map<std::string, double> symbols = {};
+		std::unordered_map<std::string, Batype> symbols = {};
 };
