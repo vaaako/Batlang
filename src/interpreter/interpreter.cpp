@@ -82,7 +82,7 @@ RTResult Interpreter::visit_unary(const Node& node) {
 	if(res.has_error()) res.failure(number.get_error()); // Check error from visit
 
 	// Eval
-	BasicResult<Number> result;
+	BasicResult<Number> result = 0;
 	if(node.get_token().get_type() == TokenType::MINUS)
 		// -1 because -> --X = +X
 		result = number.get_value().eval(-1, TokenType::MUL, node.get_pos());
