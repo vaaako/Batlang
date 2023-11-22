@@ -42,7 +42,7 @@ class Lexer {
 		char cc = -1; // Current character
 
 		const std::array<std::string, 2> keywords = {
-			"let", "//"
+			"let"
 		};
 
 
