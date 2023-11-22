@@ -1,12 +1,10 @@
 #include "../headers/interpreter.hpp"
 #include "../headers/token.hpp"
 #include "../headers/result.hpp"
-#include "../headers/environment.hpp"
 
 #include <algorithm>
 #include <iostream>
 #include <iterator>
-#include <optional>
 #include <stdexcept>
 #include <string>
 
@@ -28,8 +26,6 @@ RTResult Interpreter::visit(const Node& node) {
 			return visit_binary(node);
 		case NodeType::UNARY:
 			return visit_unary(node);
-		case NodeType::VARIABLE:
-			return visit_variable(node);
 		default:
 			throw std::runtime_error("<interpreter.cpp> No visit method found for " + Node::get_type_as_string(node.get_type()));
 			break;
@@ -42,7 +38,7 @@ RTResult Interpreter::visit_number(const Node& node) {
 
 	// Make number and set context
 	res.sucess(
-		Number::make_number(node.get_token().get_value_as_number(), std::nullopt, context)
+		Number(node.get_token().get_value_as_number(), context)
 	);
 	return res;
 }
@@ -56,7 +52,7 @@ RTResult Interpreter::visit_binary(const Node& node) {
 	Number right = visit(node.get_right()).get_value();
 
 	// Eval
-	BasicResult<Number> result = left.eval(right.get_value(), node.get_token().get_type(), node.get_pos()); // Value, type of evaluation (add, minus etc)
+	EvalResult result = left.eval(right.get_value(), node.get_token().get_type(), node.get_pos()); // Value, type of evaluation (add, minus etc)
 	
 	// Check for error
 	if(result.has_error()) {
@@ -82,7 +78,7 @@ RTResult Interpreter::visit_unary(const Node& node) {
 	if(res.has_error()) res.failure(number.get_error()); // Check error from visit
 
 	// Eval
-	BasicResult<Number> result = 0;
+	EvalResult result = 0; // I'm just using EvalResult and not RTResult to avoid circular import
 	if(node.get_token().get_type() == TokenType::MINUS)
 		// -1 because -> --X = +X
 		result = number.get_value().eval(-1, TokenType::MUL, node.get_pos());
@@ -101,9 +97,4 @@ RTResult Interpreter::visit_unary(const Node& node) {
 	)); // Change initial value
 
 	return res;
-}
-
-
-RTResult Interpreter::visit_variable(const Node& node) {
-
 }
