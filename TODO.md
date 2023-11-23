@@ -37,21 +37,21 @@ This is the TODO for the code itself, the TODO in `README.md` is for the Github 
 
 
 # Resolved
-//- Add generics to Token = Token<TokenType::INT>(123, pos);
-	+ Not necessary yet
-X Make members const
+<!-- - Add generics to Token = Token<TokenType::INT>(123, pos);
+	+ Not necessary yet -->
+[X] Make members const
 	=> Don't need to (for now)
-X Nodes don't need to be pointers (is just easier)
+[X] Nodes don't need to be pointers (is just easier)
 	=> It's harder to fix
-x Replace EvalError
+[X] Replace EvalError
 	+ To fix this I have to think in another way to declare RTResult
 	+ Fix circular import
-	=> Made Batlang type Class and this was resolved
+	+ => Made Batlang type Class and this was resolved
 
-X Unary Nodes don't print
+[X] Unary Nodes don't print
 	+ I don't know why this is happening
-	+ node.hpp:85
+	+ `node.hpp:85`
 	+ For some reason the expression "(N OP N) OP N" gives the same error
-X 3 + 3 * (4 / 2) => free(): double free detected in tcache 2
+[X] **3 + 3 * (4 / 2)** => `free(): double free detected in tcache 2`
 	+ I don't know why
-=> get_left() and get_right() was returnin "Node" I just changed to return "const Node&"
+	+ => `get_left()` and `get_right()` was returnin "Node" I just changed to return "const Node&"
