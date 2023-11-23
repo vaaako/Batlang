@@ -87,8 +87,7 @@ class PResult : public Result<Node*> {
 };
 
 // Runtime Result (interpreter)
-template <typename T>
-class RTResult : public Result<Batype*> {
+class RTResult : public Result<Batype> {
 	public:
 		RTResult();
 

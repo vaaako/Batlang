@@ -14,6 +14,8 @@ Currently it has:
 	+ With context
 - Expression Interpreter
 
+### If this version is not working try the [last working version](https://github.com/vaaako/Batlang/tree/last-working-version)
+
 ![showcase](media/showcase.gif)
 
 # Running
