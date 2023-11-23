@@ -12,7 +12,7 @@ PResult PResult::registr(const PResult& res) {
 }
 
 /* RTResult */
-RTResult::RTResult() : Result<Batype> {}
+RTResult::RTResult() : Result<Batype>() {}
 
 RTResult RTResult::registr(const RTResult& res) {
 	if(res.has_error())

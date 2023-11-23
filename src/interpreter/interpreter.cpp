@@ -52,8 +52,8 @@ RTResult Interpreter::visit_binary(const Node& node) {
 	RTResult res = RTResult();
 
 	// Get numbers (don't need to register because there is no way of getting a error)
-	Number left = visit(node.get_left()).get_value();
-	Number right = visit(node.get_right()).get_value();
+	Batype left = visit(node.get_left()).get_value();
+	Batype right = visit(node.get_right()).get_value();
 
 	// Eval
 	BasicResult<Number> result = left.eval(right.get_value(), node.get_token().get_type(), node.get_pos()); // Value, type of evaluation (add, minus etc)

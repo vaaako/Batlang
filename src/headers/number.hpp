@@ -45,11 +45,11 @@ class Floating;
 class Number {
 	public:
 		// Make number
-		inline Integer make_number(const int value, const std::optional<Position>& pos = std::nullopt, const std::optional<Context>& context = std::nullopt) {	
+		static inline Integer make_number(const int value, const std::optional<Position>& pos = std::nullopt, const std::optional<Context>& context = std::nullopt) {	
 			return Integer(value, pos, context);
 		}
 
-		inline Floating make_number(const double value, const std::optional<Position>& pos = std::nullopt, const std::optional<Context>& context = std::nullopt) {
+		static inline Floating make_number(const double value, const std::optional<Position>& pos = std::nullopt, const std::optional<Context>& context = std::nullopt) {
 			return Floating(value, pos, context);
 		}
 
